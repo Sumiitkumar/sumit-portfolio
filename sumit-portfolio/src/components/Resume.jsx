@@ -90,7 +90,7 @@ const Resume = () => {
             </div>
             <div>
               <h4 className="text-blue-600 font-semibold mb-2">📚 Experience</h4>
-              <p>4+ years of hands-on experience in DevOps, Cloud Infrastructure, and Automation</p>
+              <p>2+ years of hands-on experience in DevOps, Cloud Infrastructure, and Automation</p>
             </div>
             <div>
               <h4 className="text-blue-600 font-semibold mb-2">🛠️ Key Skills</h4>

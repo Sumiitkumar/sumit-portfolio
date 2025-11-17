@@ -41,6 +41,23 @@ const Hero = () => {
             Download Resume
           </a>
         </div>
+
+        {/* kubectl Details Box */}
+        {showDetails && (
+          <div className="mt-8 p-6 bg-gradient-to-br from-gray-50 to-blue-50 border-2 border-blue-200 rounded-2xl shadow-lg">
+            <div className="font-mono text-sm text-gray-800 space-y-3">
+              <div className="text-blue-600 font-semibold">NAME                    STATUS    EXPERIENCE</div>
+              <div>sumit-kumar             Ready     2+ Years in DevOps</div>
+              <div className="text-gray-600">sumit-kubernetes        Ready     Expert Level</div>
+              <div className="text-gray-600">sumit-aws               Ready     Multi-Cloud Certified</div>
+              <div className="text-gray-600">sumit-cicd              Ready     Pipeline Architect</div>
+              <div className="mt-6 text-gray-700">
+                <p><span className="text-blue-600 font-semibold">Skills:</span> Kubernetes, Docker, Terraform, AWS, CI/CD, Jenkins, GitLab, Prometheus</p>
+                <p className="mt-2"><span className="text-blue-600 font-semibold">Location:</span> India | <span className="text-blue-600 font-semibold">Status:</span> Open to Opportunities</p>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </section>
   );
