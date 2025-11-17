@@ -55,27 +55,28 @@ const Projects = () => {
   return (
     <section
       id="projects"
-      className="min-h-screen bg-[#112240] text-gray-300 flex flex-col justify-center items-center px-6 py-16"
+      className="min-h-screen bg-gray-50 text-black flex flex-col justify-center items-center px-6 py-16"
     >
-      <div className="max-w-6xl w-full text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-12">
-          Featured <span className="text-[#64ffda]">Projects</span>
+      <div className="max-w-6xl w-full">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-center">
+          Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Projects</span>
         </h2>
+        <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">Showcasing my DevOps and infrastructure projects</p>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
           {projectData.map((project) => (
             <div
               key={project.id}
-              className="bg-[#0a192f] p-6 rounded-lg shadow-lg hover:shadow-[0_0_20px_-5px_#64ffda] transition duration-300 flex flex-col justify-between"
+              className="bg-white p-8 rounded-2xl shadow-md hover:shadow-2xl transition duration-300 flex flex-col justify-between border border-gray-200"
             >
               <div>
-                <h3 className="text-xl font-semibold text-[#64ffda] mb-3">
+                <h3 className="text-xl font-semibold text-blue-600 mb-3">
                   {project.title}
                 </h3>
-                <p className="text-gray-400 mb-4 text-sm leading-relaxed">
+                <p className="text-gray-600 mb-6 text-sm leading-relaxed">
                   {project.description}
                 </p>
-                <div className="flex gap-4 text-xl text-gray-400 mb-6 justify-center sm:justify-start flex-wrap">
+                <div className="flex gap-4 text-xl text-gray-600 mb-6 justify-start flex-wrap">
                   {project.tools.map((toolName, idx) => (
                     <span 
                       key={idx} 
@@ -88,13 +89,13 @@ const Projects = () => {
                 </div>
               </div>
 
-              <div className="flex justify-center sm:justify-start gap-4 mt-auto">
+              <div className="flex justify-start gap-4 mt-auto">
                 {project.github && (
                   <a
                     href={project.github}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-gray-400 hover:text-[#64ffda] transition"
+                    className="inline-flex items-center gap-2 text-gray-700 hover:text-blue-600 transition bg-gray-100 px-4 py-2 rounded-lg hover:bg-blue-50"
                   >
                     <FaGithub /> <span className="text-sm">Code</span>
                   </a>
@@ -104,7 +105,7 @@ const Projects = () => {
                     href={project.live}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex items-center gap-2 text-gray-400 hover:text-[#64ffda] transition"
+                    className="inline-flex items-center gap-2 text-gray-700 hover:text-blue-600 transition bg-gray-100 px-4 py-2 rounded-lg hover:bg-blue-50"
                   >
                     <FaExternalLinkAlt /> <span className="text-sm">Live</span>
                   </a>

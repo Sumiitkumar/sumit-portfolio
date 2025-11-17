@@ -55,20 +55,21 @@ const Skills = () => {
   return (
     <section
       id="skills"
-      className="min-h-screen bg-[#0a192f] text-gray-300 flex flex-col items-center px-6 py-16"
+      className="min-h-screen bg-white text-black flex flex-col items-center px-6 py-16"
     >
-      <div className="max-w-6xl w-full text-center">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-12">
-          Technical <span className="text-[#64ffda]">Skills</span>
+      <div className="max-w-6xl w-full">
+        <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-center">
+          Technical <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Skills</span>
         </h2>
+        <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">Expertise in modern DevOps tools and technologies</p>
 
         <div className="grid md:grid-cols-2 gap-12">
           {skillCategories.map((category, index) => (
             <div
               key={index}
-              className="bg-[#112240] rounded-lg p-6 shadow-lg hover:shadow-[0_0_15px_-5px_#64ffda] transition duration-300"
+              className="bg-gradient-to-br from-blue-50 to-purple-50 rounded-2xl p-8 shadow-md hover:shadow-xl transition duration-300 border border-blue-100"
             >
-              <h3 className="text-xl font-semibold text-[#64ffda] mb-6">
+              <h3 className="text-xl font-semibold text-blue-600 mb-8">
                 {category.title}
               </h3>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-6 justify-items-center">
