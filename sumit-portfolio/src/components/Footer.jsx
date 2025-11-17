@@ -42,7 +42,7 @@ const Footer = () => {
           >
             <FaTwitter />
           </a>
-          <a
+          {/* <a
             href="https://instagram.com/sumiitkumar"
             target="_blank"
             rel="noopener noreferrer"
@@ -50,7 +50,7 @@ const Footer = () => {
             aria-label="Instagram"
           >
             <FaInstagram />
-          </a>
+          </a> */}
         </div>
       </div>
     </footer>

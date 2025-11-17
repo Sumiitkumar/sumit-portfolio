@@ -2,32 +2,54 @@ import React from "react";
 import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
 import { SiDocker, SiJenkins, SiKubernetes, SiTerraform, SiAwsamplify } from "react-icons/si";
 
+// Icon mapping for tools
+const iconMap = {
+  docker: <SiDocker />,
+  jenkins: <SiJenkins />,
+  kubernetes: <SiKubernetes />,
+  terraform: <SiTerraform />,
+  aws: <SiAwsamplify />,
+};
+
 const Projects = () => {
+  // Easy to add more projects - just add objects to this array
   const projectData = [
     {
-      title: "CI/CD Pipeline with Jenkins & Docker",
-      description:
-        "Designed and deployed a CI/CD pipeline using Jenkins, Docker, and GitHub. Automated build, test, and deployment process for microservices applications.",
-      tools: [<SiJenkins key="jenkins" />, <SiDocker key="docker" />],
-      github: "https://github.com/sumiitkumar/jenkins-docker-pipeline",
-      live: "",
-    },
+  id: 1,
+  title: "AI Agent Chatbot",
+  description:
+    "Built an AI-powered agent chatbot capable of understanding user queries, generating intelligent responses, and performing automated tasks. Integrated with modern NLP models and deployed using scalable cloud infrastructure.",
+  tools: ["python", "ai", "docker"],
+  github: "https://github.com/sumiitkumar/ai-agent-chatbot",
+  live: "",
+},
     {
+      id: 2,
       title: "Kubernetes Deployment on AWS EKS",
       description:
         "Deployed containerized applications on AWS EKS cluster with auto-scaling and monitoring using Prometheus and Grafana. Used Terraform for IaC.",
-      tools: [<SiKubernetes key="k8s" />, <SiTerraform key="terraform" />, <SiAwsamplify key="aws" />],
+      tools: ["kubernetes", "terraform", "aws"],
       github: "https://github.com/sumiitkumar/aws-eks-deployment",
       live: "",
     },
     {
+      id: 3,
       title: "Infrastructure Automation with Terraform",
       description:
         "Built and managed cloud infrastructure using Terraform on AWS. Automated provisioning of EC2 instances, networking, and security configurations.",
-      tools: [<SiTerraform key="terraform" />, <SiAwsamplify key="aws" />],
+      tools: ["terraform", "aws"],
       github: "https://github.com/sumiitkumar/terraform-infra-automation",
       live: "",
     },
+    // Add new projects here
+    // {
+    //   id: 4,
+    //   title: "Project Title",
+    //   description: "Project description goes here",
+    //   tools: ["docker", "kubernetes"],
+    //   github: "https://github.com/sumiitkumar/your-project",
+    //   live: "https://your-project-link.com",
+    // },
   ];
 
   return (
@@ -41,9 +63,9 @@ const Projects = () => {
         </h2>
 
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
-          {projectData.map((project, index) => (
+          {projectData.map((project) => (
             <div
-              key={index}
+              key={project.id}
               className="bg-[#0a192f] p-6 rounded-lg shadow-lg hover:shadow-[0_0_20px_-5px_#64ffda] transition duration-300 flex flex-col justify-between"
             >
               <div>
@@ -53,10 +75,14 @@ const Projects = () => {
                 <p className="text-gray-400 mb-4 text-sm leading-relaxed">
                   {project.description}
                 </p>
-                <div className="flex gap-4 text-xl text-gray-400 mb-6 justify-center sm:justify-start">
-                  {project.tools.map((icon, idx) => (
-                    <span key={idx} className="hover:text-[#64ffda] transition">
-                      {icon}
+                <div className="flex gap-4 text-xl text-gray-400 mb-6 justify-center sm:justify-start flex-wrap">
+                  {project.tools.map((toolName, idx) => (
+                    <span 
+                      key={idx} 
+                      className="hover:text-[#64ffda] transition"
+                      title={toolName}
+                    >
+                      {iconMap[toolName] || ""}
                     </span>
                   ))}
                 </div>

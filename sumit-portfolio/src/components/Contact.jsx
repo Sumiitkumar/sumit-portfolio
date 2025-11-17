@@ -19,24 +19,24 @@ const Contact = () => {
         </p>
 
         {/* Contact Info */}
-        <div className="grid sm:grid-cols-2 gap-8 justify-items-center mb-12">
+        <div className="grid-cols-2 gap-8 justify-items-center mb-12">
           <div className="flex items-center gap-4 hover:text-[#64ffda] transition">
             <FaPhoneAlt className="text-2xl text-[#64ffda]" />
-            <p className="text-lg">+91 98765 43210</p>
+            <p className="text-lg">+91 8709863830</p>
           </div>
           <div className="flex items-center gap-4 hover:text-[#64ffda] transition">
             <HiMail className="text-2xl text-[#64ffda]" />
             <a
-              href="mailto:sumit.devops@example.com"
+              href="mailto:sumiitkumar.it@gmail.com"
               className="text-lg hover:underline"
             >
-              sumit.devops@example.com
+              sumiitkumar.it@gmail.com
             </a>
           </div>
         </div>
 
         {/* Social Links */}
-        <div className="flex justify-center gap-8 text-3xl">
+        <div className="flex justify-center gap-12 text-3xl">
           <a
             href="https://github.com/sumiitkumar"
             target="_blank"
@@ -47,7 +47,7 @@ const Contact = () => {
             <FaGithub />
           </a>
           <a
-            href="https://linkedin.com/in/sumiitkumar"
+            href="https://www.linkedin.com/in/sumiitkumar/"
             target="_blank"
             rel="noopener noreferrer"
             className="hover:text-[#64ffda] transition"
@@ -64,7 +64,7 @@ const Contact = () => {
           >
             <FaTwitter />
           </a>
-          <a
+          {/* <a
             href="https://instagram.com/sumiitkumar"
             target="_blank"
             rel="noopener noreferrer"
@@ -72,7 +72,7 @@ const Contact = () => {
             aria-label="Instagram"
           >
             <FaInstagram />
-          </a>
+          </a> */}
         </div>
 
        
