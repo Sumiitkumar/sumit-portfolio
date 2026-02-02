@@ -1,115 +1,133 @@
 import React from "react";
-import { FaGithub, FaExternalLinkAlt } from "react-icons/fa";
-import { SiDocker, SiJenkins, SiKubernetes, SiTerraform, SiAwsamplify } from "react-icons/si";
-
-// Icon mapping for tools
-const iconMap = {
-  docker: <SiDocker />,
-  jenkins: <SiJenkins />,
-  kubernetes: <SiKubernetes />,
-  terraform: <SiTerraform />,
-  aws: <SiAwsamplify />,
-};
+import { FaGithub, FaExternalLinkAlt, FaCheckCircle, FaAws } from "react-icons/fa";
+import { SiDocker, SiJenkins, SiKubernetes, SiTerraform } from "react-icons/si";
 
 const Projects = () => {
-  // Easy to add more projects - just add objects to this array
   const projectData = [
     {
-  id: 1,
-  title: "AI Agent Chatbot",
-  description:
-    "Built an AI-powered agent chatbot capable of understanding user queries, generating intelligent responses, and performing automated tasks. Integrated with modern NLP models and deployed using scalable cloud infrastructure.",
-  tools: ["python", "ai", "docker"],
-  github: "https://github.com/sumiitkumar/ai-agent-chatbot",
-  live: "",
-},
+      id: 1,
+      title: "AI Agent Chatbot",
+      description:
+        "Built an AI-powered agent chatbot with NLP capabilities. Containerized with Docker and deployed on scalable cloud infrastructure for high availability.",
+      tools: ["python", "docker"],
+      github: "https://github.com/sumiitkumar/ai-agent-chatbot",
+      live: "",
+      status: "completed",
+    },
     {
       id: 2,
       title: "Kubernetes Deployment on AWS EKS",
       description:
-        "Deployed containerized applications on AWS EKS cluster with auto-scaling and monitoring using Prometheus and Grafana. Used Terraform for IaC.",
+        "Orchestrated containerized microservices on AWS EKS. Configured auto-scaling, monitoring with Prometheus & Grafana, and infrastructure with Terraform.",
       tools: ["kubernetes", "terraform", "aws"],
       github: "https://github.com/sumiitkumar/aws-eks-deployment",
       live: "",
+      status: "completed",
     },
     {
       id: 3,
       title: "Infrastructure Automation with Terraform",
       description:
-        "Built and managed cloud infrastructure using Terraform on AWS. Automated provisioning of EC2 instances, networking, and security configurations.",
+        "Automated AWS infrastructure provisioning including EC2, networking, security groups, and RDS databases using Infrastructure as Code principles.",
       tools: ["terraform", "aws"],
       github: "https://github.com/sumiitkumar/terraform-infra-automation",
       live: "",
+      status: "completed",
     },
-    // Add new projects here
-    // {
-    //   id: 4,
-    //   title: "Project Title",
-    //   description: "Project description goes here",
-    //   tools: ["docker", "kubernetes"],
-    //   github: "https://github.com/sumiitkumar/your-project",
-    //   live: "https://your-project-link.com",
-    // },
   ];
+
+  const toolIcons = {
+    docker: <SiDocker className="text-[#2496ED]" />,
+    jenkins: <SiJenkins className="text-[#D33833]" />,
+    kubernetes: <SiKubernetes className="text-[#326CE5]" />,
+    terraform: <SiTerraform className="text-[#7B42BC]" />,
+    aws: <FaAws className="text-[#FF9900]" />,
+    python: "🐍",
+  };
 
   return (
     <section
       id="projects"
-      className="min-h-screen bg-gray-50 text-black flex flex-col justify-center items-center px-6 py-16"
+      className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white flex flex-col justify-center items-center px-6 py-16 relative overflow-hidden"
     >
-      <div className="max-w-6xl w-full">
-        <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-center">
-          Featured <span className="text-transparent bg-clip-text bg-gradient-to-r from-blue-600 to-purple-600">Projects</span>
-        </h2>
-        <p className="text-gray-600 text-center mb-12 max-w-2xl mx-auto">Showcasing my DevOps and infrastructure projects</p>
+      {/* Background elements */}
+      <div className="absolute top-0 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
+      <div className="absolute bottom-0 right-0 w-96 h-96 bg-blue-500/10 rounded-full blur-3xl"></div>
 
-        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-10">
+      <div className="max-w-6xl w-full relative z-10">
+        <div className="text-center mb-16">
+          <h2 className="text-4xl sm:text-5xl font-bold mb-4">
+            Featured <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Projects</span>
+          </h2>
+          <p className="text-slate-300 max-w-2xl mx-auto text-lg">
+            Production-ready DevOps implementations and cloud infrastructure projects
+          </p>
+        </div>
+
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {projectData.map((project) => (
             <div
               key={project.id}
-              className="bg-white p-8 rounded-2xl shadow-md hover:shadow-2xl transition duration-300 flex flex-col justify-between border border-gray-200"
+              className="bg-slate-800/50 border border-cyan-500/30 rounded-lg overflow-hidden hover:border-cyan-500/60 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/20 group flex flex-col"
             >
-              <div>
-                <h3 className="text-xl font-semibold text-blue-600 mb-3">
-                  {project.title}
-                </h3>
-                <p className="text-gray-600 mb-6 text-sm leading-relaxed">
-                  {project.description}
-                </p>
-                <div className="flex gap-4 text-xl text-gray-600 mb-6 justify-start flex-wrap">
-                  {project.tools.map((toolName, idx) => (
-                    <span 
-                      key={idx} 
-                      className="hover:text-[#64ffda] transition"
-                      title={toolName}
-                    >
-                      {iconMap[toolName] || ""}
-                    </span>
-                  ))}
+              {/* Header */}
+              <div className="bg-gradient-to-r from-cyan-600 to-blue-600 px-6 py-4 border-b border-cyan-500/20">
+                <div className="flex items-start justify-between gap-2">
+                  <h3 className="text-lg font-semibold text-white flex-1">
+                    {project.title}
+                  </h3>
+                  <FaCheckCircle className="text-green-400 text-xl flex-shrink-0" />
                 </div>
               </div>
 
-              <div className="flex justify-start gap-4 mt-auto">
-                {project.github && (
-                  <a
-                    href={project.github}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-gray-700 hover:text-blue-600 transition bg-gray-100 px-4 py-2 rounded-lg hover:bg-blue-50"
-                  >
-                    <FaGithub /> <span className="text-sm">Code</span>
-                  </a>
-                )}
-                {project.live && (
-                  <a
-                    href={project.live}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="inline-flex items-center gap-2 text-gray-700 hover:text-blue-600 transition bg-gray-100 px-4 py-2 rounded-lg hover:bg-blue-50"
-                  >
-                    <FaExternalLinkAlt /> <span className="text-sm">Live</span>
-                  </a>
-                )}
+              {/* Content */}
+              <div className="p-6 flex flex-col flex-grow">
+                <p className="text-slate-300 mb-6 text-sm leading-relaxed flex-grow">
+                  {project.description}
+                </p>
+
+                {/* Tools */}
+                <div className="mb-6 pb-6 border-b border-slate-700/50">
+                  <p className="text-xs text-cyan-300 font-semibold mb-3 uppercase tracking-wider">Technologies</p>
+                  <div className="flex gap-3 flex-wrap">
+                    {project.tools.map((toolName, idx) => (
+                      <div
+                        key={idx}
+                        className="flex items-center gap-2 px-3 py-1 bg-slate-900/50 border border-slate-700/50 rounded-md hover:border-cyan-500/50 transition"
+                        title={toolName}
+                      >
+                        <span className="text-lg">
+                          {typeof toolIcons[toolName] === "string" ? toolIcons[toolName] : toolIcons[toolName]}
+                        </span>
+                        <span className="text-xs text-slate-300 capitalize">{toolName}</span>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Links */}
+                <div className="flex gap-3">
+                  {project.github && (
+                    <a
+                      href={project.github}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 inline-flex items-center justify-center gap-2 text-slate-200 hover:text-cyan-300 transition bg-slate-900/50 border border-slate-700/50 hover:border-cyan-500/50 px-4 py-2 rounded-lg hover:bg-slate-900/80 font-medium text-sm"
+                    >
+                      <FaGithub /> Code
+                    </a>
+                  )}
+                  {project.live && (
+                    <a
+                      href={project.live}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="flex-1 inline-flex items-center justify-center gap-2 text-slate-200 hover:text-cyan-300 transition bg-slate-900/50 border border-slate-700/50 hover:border-cyan-500/50 px-4 py-2 rounded-lg hover:bg-slate-900/80 font-medium text-sm"
+                    >
+                      <FaExternalLinkAlt /> Live
+                    </a>
+                  )}
+                </div>
               </div>
             </div>
           ))}
