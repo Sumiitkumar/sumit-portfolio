@@ -1,0 +1,76 @@
+name: Version & Release
+
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'package.json'
+      - 'src/**'
+      - 'public/**'
+  workflow_dispatch:
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      packages: write
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+
+      - name: Configure Git
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+      - name: Get current version
+        id: version
+        run: |
+          VERSION=$(node -p "require('./package.json').version")
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+      - name: Create Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v${{ steps.version.outputs.version }}
+          release_name: Release v${{ steps.version.outputs.version }}
+          body: |
+            Release v${{ steps.version.outputs.version }}
+            
+            Check the changelog and commit history for detailed changes.
+          draft: false
+          prerelease: false
+
+      - name: Publish to GitHub Packages
+        run: |
+          npm install
+          npm run build
+        env:
+          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Create GitHub Pages release notes
+        run: |
+          echo "# Release v${{ steps.version.outputs.version }}" > RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          echo "**Released:** $(date)" >> RELEASE_NOTES.md
+          echo "" >> RELEASE_NOTES.md
+          echo "See [commits](https://github.com/${{ github.repository }}/compare/${{ github.event.before }}...${{ github.sha }}) for changes." >> RELEASE_NOTES.md
+
+      - name: Commit and push release notes
+        run: |
+          if [[ -n $(git status -s) ]]; then
+            git add RELEASE_NOTES.md
+            git commit -m "docs: update release notes for v${{ steps.version.outputs.version }}"
+            git push origin main
+          fi

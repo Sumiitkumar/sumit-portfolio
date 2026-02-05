@@ -1,0 +1,78 @@
+name: PR Validation
+
+on:
+  pull_request:
+    branches: [ main, develop ]
+    types: [ opened, synchronize, reopened ]
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate PR title
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const title = context.payload.pull_request.title;
+            const validPrefixes = ['feat:', 'fix:', 'docs:', 'style:', 'refactor:', 'test:', 'chore:', 'ci:'];
+            const isValid = validPrefixes.some(prefix => title.startsWith(prefix));
+            
+            if (!isValid) {
+              core.setFailed(`PR title should start with one of: ${validPrefixes.join(', ')}`);
+            } else {
+              console.log('✅ PR title is valid');
+            }
+
+      - name: Check for required labels
+        uses: actions/github-script@v7
+        continue-on-error: true
+        with:
+          script: |
+            const labels = context.payload.pull_request.labels.map(l => l.name);
+            const hasLabel = labels.length > 0;
+            
+            if (!hasLabel) {
+              console.log('⚠️ PR has no labels. Consider adding one: bug, feature, documentation, enhancement');
+            }
+
+      - name: Check for description
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const description = context.payload.pull_request.body;
+            
+            if (!description || description.trim().length === 0) {
+              core.setFailed('PR description is required');
+            } else {
+              console.log('✅ PR has a description');
+            }
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20.x'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run build
+        run: npm run build
+
+      - name: Add success comment
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: '✅ All validation checks passed!'
+            });
