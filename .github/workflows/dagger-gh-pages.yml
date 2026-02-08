@@ -1,0 +1,56 @@
+# GitHub Actions workflow to build with Dagger and deploy to GitHub Pages
+# Also builds and pushes a Docker image
+
+name: Dagger CI/CD & GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  dagger-pipeline:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install Dagger CLI
+        run: |
+          curl -L https://dl.dagger.io/dagger/install.sh | sh
+          echo "$HOME/.dagger/bin" >> $GITHUB_PATH
+
+      - name: Install dependencies
+        run: |
+          cd sumit-portfolio
+          npm ci
+
+      - name: Run Dagger pipeline
+        run: |
+          dagger run -- cd sumit-portfolio && npm run build
+
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v4
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./sumit-portfolio/dist
+
+      - name: Build Docker image
+        run: |
+          docker build -t ghcr.io/${{ github.repository_owner }}/sumit-portfolio:latest ./sumit-portfolio
+
+      - name: Log in to GitHub Container Registry
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Push Docker image
+        run: |
+          docker push ghcr.io/${{ github.repository_owner }}/sumit-portfolio:latest
