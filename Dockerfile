@@ -1,9 +1,10 @@
 # Simple Dockerfile for the portfolio app
+
 FROM node:20-alpine as build
 WORKDIR /app
-COPY sumit-portfolio/package*.json ./
+COPY package*.json ./
 RUN npm ci
-COPY sumit-portfolio ./
+COPY . .
 RUN npm run build
 
 FROM nginx:alpine
