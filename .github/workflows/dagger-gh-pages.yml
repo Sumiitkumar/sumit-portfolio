@@ -30,12 +30,9 @@ jobs:
           cd sumit-portfolio
           npm ci
 
-      - name: Run Dagger pipeline (build & push Docker image)
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          REGISTRY: ghcr.io
+      - name: Run Dagger pipeline (build & save Docker image as tar)
         run: |
-          IMAGE="ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/sumit-portfolio:latest"
+          IMAGE="sumit-portfolio:latest"
           docker pull registry.dagger.io/engine:v0.19.11 || true
           dagger run -- bash -c '
             cd sumit-portfolio
@@ -43,6 +40,5 @@ jobs:
             npm run build
             cd ..
             docker build -t $IMAGE ./sumit-portfolio
-            echo $GITHUB_TOKEN | docker login $REGISTRY -u ${{ github.actor }} --password-stdin
-            docker push $IMAGE
+            docker save $IMAGE -o sumit-portfolio-image.tar
           '
