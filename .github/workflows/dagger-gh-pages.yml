@@ -31,13 +31,14 @@ jobs:
           npm ci
 
       - name: Run Dagger pipeline (build & save Docker image as tar)
+        env:
+          IMAGE: sumit-portfolio:latest
         run: |
-          IMAGE="sumit-portfolio:latest"
           docker pull registry.dagger.io/engine:v0.19.11 || true
-          dagger run -- bash -c '
+          dagger run -- bash -c "
             cd sumit-portfolio
             npm ci
             npm run build
-            docker build -t $IMAGE .
-            docker save $IMAGE -o ../sumit-portfolio-image.tar
-          '
+            docker build -t ${IMAGE} .
+            docker save ${IMAGE} -o ../sumit-portfolio-image.tar
+          "
