@@ -34,8 +34,9 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           REGISTRY: ghcr.io
-          IMAGE: ghcr.io/${{ github.repository_owner }}/sumit-portfolio:latest
         run: |
+          IMAGE="ghcr.io/$(echo "${{ github.repository_owner }}" | tr '[:upper:]' '[:lower:]')/sumit-portfolio:latest"
+          docker pull registry.dagger.io/engine:v0.19.11 || true
           dagger run -- bash -c '
             cd sumit-portfolio
             npm ci
