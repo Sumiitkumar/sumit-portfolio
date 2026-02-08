@@ -15,7 +15,7 @@ const About = () => {
         <div className="flex justify-center md:justify-start order-2 md:order-1">
           <div className="relative w-44 h-44 rounded-lg overflow-hidden border-4 border-green-200 shadow-lg bg-white">
             <img
-              src="/profile%20photo.jpeg"
+              src={`${import.meta.env.BASE_URL}profile.jpg`}
               alt="Sumit Kumar"
               className="object-cover w-full h-full"
             />
