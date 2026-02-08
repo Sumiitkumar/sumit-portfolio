@@ -38,7 +38,6 @@ jobs:
             cd sumit-portfolio
             npm ci
             npm run build
-            cd ..
-            docker build -t $IMAGE ./sumit-portfolio
-            docker save $IMAGE -o sumit-portfolio-image.tar
+            docker build -t $IMAGE .
+            docker save $IMAGE -o ../sumit-portfolio-image.tar
           '
