@@ -23,7 +23,7 @@ jobs:
       - name: Install Dagger CLI
         run: |
           curl -L https://dl.dagger.io/dagger/install.sh | sh
-          sudo mv ~/.dagger/bin/dagger /usr/local/bin/
+          sudo mv ./bin/dagger /usr/local/bin/
 
       - name: Install dependencies
         run: |
