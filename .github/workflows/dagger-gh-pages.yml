@@ -23,35 +23,25 @@ jobs:
       - name: Install Dagger CLI
         run: |
           curl -L https://dl.dagger.io/dagger/install.sh | sh
-          echo "$HOME/.dagger/bin" >> $GITHUB_PATH
-          export PATH="$HOME/.dagger/bin:$PATH"
+          sudo mv ~/.dagger/bin/dagger /usr/local/bin/
 
       - name: Install dependencies
         run: |
           cd sumit-portfolio
           npm ci
 
-      - name: Run Dagger pipeline
+      - name: Run Dagger pipeline (build & push Docker image)
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          REGISTRY: ghcr.io
+          IMAGE: ghcr.io/${{ github.repository_owner }}/sumit-portfolio:latest
         run: |
-          dagger run -- cd sumit-portfolio && npm run build
-
-      - name: Deploy to GitHub Pages
-        uses: peaceiris/actions-gh-pages@v4
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./sumit-portfolio/dist
-
-      - name: Build Docker image
-        run: |
-          docker build -t ghcr.io/${{ github.repository_owner }}/sumit-portfolio:latest ./sumit-portfolio
-
-      - name: Log in to GitHub Container Registry
-        uses: docker/login-action@v3
-        with:
-          registry: ghcr.io
-          username: ${{ github.actor }}
-          password: ${{ secrets.GITHUB_TOKEN }}
-
-      - name: Push Docker image
-        run: |
-          docker push ghcr.io/${{ github.repository_owner }}/sumit-portfolio:latest
+          dagger run -- bash -c '
+            cd sumit-portfolio
+            npm ci
+            npm run build
+            cd ..
+            docker build -t $IMAGE ./sumit-portfolio
+            echo $GITHUB_TOKEN | docker login $REGISTRY -u ${{ github.actor }} --password-stdin
+            docker push $IMAGE
+          '
