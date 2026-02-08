@@ -81,7 +81,7 @@ const Skills = () => {
   return (
     <section
       id="skills"
-      className="min-h-screen bg-gradient-to-b from-slate-800 via-slate-900 to-slate-800 text-white flex flex-col items-center px-6 py-16 relative overflow-hidden"
+      className="min-h-screen bg-white text-green-900 flex flex-col items-center px-6 py-16 relative overflow-hidden"
     >
       {/* Background elements */}
       <div className="absolute top-20 right-0 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl"></div>
@@ -89,10 +89,10 @@ const Skills = () => {
 
       <div className="max-w-6xl w-full relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-            Technical <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Stack</span>
+          <h2 className="text-4xl sm:text-5xl font-bold mb-4 text-green-700">
+            Skills
           </h2>
-          <p className="text-slate-300 max-w-2xl mx-auto text-lg">
+          <p className="text-green-700 max-w-2xl mx-auto text-lg">
             Expertise in modern DevOps tools, cloud platforms, and containerization technologies
           </p>
         </div>
@@ -101,25 +101,22 @@ const Skills = () => {
           {skillCategories.map((category, index) => (
             <div
               key={index}
-              className={`bg-slate-800/50 backdrop-blur border ${category.borderColor} rounded-xl p-6 hover:shadow-2xl hover:shadow-cyan-500/20 transition-all duration-300 group hover:border-opacity-100 border-opacity-50`}
+              className="bg-green-50 border border-green-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300 group"
             >
-              {/* Header with gradient */}
-              <div className={`bg-gradient-to-r ${category.color} h-1 w-12 mb-4 rounded-full group-hover:w-24 transition-all duration-300`}></div>
-              
-              <h3 className="text-xl font-semibold text-cyan-300 mb-6 group-hover:text-cyan-200 transition">
+              <div className="h-1 w-12 mb-4 rounded-full bg-green-400 group-hover:w-24 transition-all duration-300"></div>
+              <h3 className="text-xl font-semibold text-green-700 mb-6 group-hover:text-green-600 transition">
                 {category.title}
               </h3>
-              
               <div className="grid grid-cols-3 gap-4">
                 {category.skills.map((skill, idx) => (
                   <div
                     key={idx}
-                    className="flex flex-col items-center justify-center p-3 bg-slate-900/50 rounded-lg border border-slate-700/50 hover:border-cyan-500/50 hover:bg-slate-900/80 transition-all duration-300 group/skill"
+                    className="flex flex-col items-center justify-center p-3 bg-white rounded-lg border border-green-100 hover:border-green-400 transition-all duration-300 group/skill"
                   >
                     <div className="text-3xl mb-2 group-hover/skill:scale-110 transition-transform duration-300">
                       {skill.icon}
                     </div>
-                    <p className="text-xs text-slate-300 font-medium text-center group-hover/skill:text-cyan-300 transition">
+                    <p className="text-xs text-green-700 font-medium text-center group-hover/skill:text-green-600 transition">
                       {skill.name}
                     </p>
                   </div>
@@ -131,21 +128,21 @@ const Skills = () => {
 
         {/* Stats Section */}
         <div className="mt-16 grid grid-cols-2 md:grid-cols-4 gap-4">
-          <div className="bg-slate-800/50 border border-cyan-500/30 p-6 rounded-lg text-center hover:border-cyan-500/60 transition">
-            <div className="text-3xl font-bold text-cyan-400">2+</div>
-            <p className="text-slate-400 text-sm mt-2">Years Experience</p>
+          <div className="bg-green-50 border border-green-200 p-6 rounded-lg text-center hover:border-green-400 transition">
+            <div className="text-3xl font-bold text-green-600">2+</div>
+            <p className="text-green-700 text-sm mt-2">Years Experience</p>
           </div>
-          <div className="bg-slate-800/50 border border-blue-500/30 p-6 rounded-lg text-center hover:border-blue-500/60 transition">
-            <div className="text-3xl font-bold text-blue-400">15+</div>
-            <p className="text-slate-400 text-sm mt-2">Tools Mastered</p>
+          <div className="bg-green-50 border border-green-200 p-6 rounded-lg text-center hover:border-green-400 transition">
+            <div className="text-3xl font-bold text-green-600">15+</div>
+            <p className="text-green-700 text-sm mt-2">Tools Mastered</p>
           </div>
-          <div className="bg-slate-800/50 border border-purple-500/30 p-6 rounded-lg text-center hover:border-purple-500/60 transition">
-            <div className="text-3xl font-bold text-purple-400">10+</div>
-            <p className="text-slate-400 text-sm mt-2">Projects Deployed</p>
+          <div className="bg-green-50 border border-green-200 p-6 rounded-lg text-center hover:border-green-400 transition">
+            <div className="text-3xl font-bold text-green-600">10+</div>
+            <p className="text-green-700 text-sm mt-2">Projects Deployed</p>
           </div>
-          <div className="bg-slate-800/50 border border-green-500/30 p-6 rounded-lg text-center hover:border-green-500/60 transition">
-            <div className="text-3xl font-bold text-green-400">Expert</div>
-            <p className="text-slate-400 text-sm mt-2">Proficiency Level</p>
+          <div className="bg-green-50 border border-green-200 p-6 rounded-lg text-center hover:border-green-400 transition">
+            <div className="text-3xl font-bold text-green-600">Expert</div>
+            <p className="text-green-700 text-sm mt-2">Proficiency Level</p>
           </div>
         </div>
       </div>

@@ -1,48 +1,59 @@
 import React, { useState } from "react";
 import { FaTerminal, FaGithub } from "react-icons/fa";
+import { Link } from "react-router-dom";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
+  // Instant scroll to section
+  const handleInstantScroll = (e, id) => {
+    e.preventDefault();
+    const el = document.getElementById(id);
+    if (el) {
+      el.scrollIntoView({ behavior: "instant", block: "start" });
+    }
+    setIsOpen(false);
+  };
 
   return (
-    <nav className="bg-gradient-to-r from-slate-900 via-slate-800 to-slate-900 text-white fixed w-full z-50 shadow-2xl border-b border-cyan-500/20 backdrop-blur">
+    <nav className="bg-white text-green-700 fixed w-full z-50 shadow-2xl border-b border-green-200 backdrop-blur">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-20">
           {/* Logo */}
           <div className="flex items-center gap-2">
-            <FaTerminal className="text-2xl text-cyan-400" />
-            <h1 className="text-2xl font-bold bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent font-mono">
-              sumit.dev
+            <FaTerminal className="text-2xl text-green-500" />
+            <h1 className="text-2xl font-bold font-mono text-green-700">
+              sumit
             </h1>
           </div>
 
           {/* Desktop Menu */}
           <div className="hidden md:flex space-x-1">
-            <a href="#home" className="px-4 py-2 text-slate-200 hover:text-cyan-400 font-medium transition duration-300">Home</a>
-            <a href="#about" className="px-4 py-2 text-slate-200 hover:text-cyan-400 font-medium transition duration-300">About</a>
-            <a href="#skills" className="px-4 py-2 text-slate-200 hover:text-cyan-400 font-medium transition duration-300">Skills</a>
-            <a href="#projects" className="px-4 py-2 text-slate-200 hover:text-cyan-400 font-medium transition duration-300">Projects</a>
-            <a href="#contact" className="px-4 py-2 text-slate-200 hover:text-cyan-400 font-medium transition duration-300">Contact</a>
+            <a href="#home" onClick={e => handleInstantScroll(e, "home")} className="px-4 py-2 text-green-700 hover:text-green-600 font-medium transition duration-300">Home</a>
+            <a href="#about" onClick={e => handleInstantScroll(e, "about")} className="px-4 py-2 text-green-700 hover:text-green-600 font-medium transition duration-300">About</a>
+            <a href="#skills" onClick={e => handleInstantScroll(e, "skills")} className="px-4 py-2 text-green-700 hover:text-green-600 font-medium transition duration-300">Skills</a>
+            <a href="#projects" onClick={e => handleInstantScroll(e, "projects")} className="px-4 py-2 text-green-700 hover:text-green-600 font-medium transition duration-300">Projects</a>
+            <Link to="/blog" className="px-4 py-2 text-green-700 hover:text-green-600 font-medium transition duration-300">Blog</Link>
+            <a href="#contact" onClick={e => handleInstantScroll(e, "contact")} className="px-4 py-2 text-green-700 hover:text-green-600 font-medium transition duration-300">Contact</a>
           </div>
 
           {/* GitHub Button */}
           <div className="hidden md:flex items-center gap-4">
-            <a href="https://github.com/sumiitkumar" target="_blank" rel="noopener noreferrer" className="text-slate-200 hover:text-cyan-400 transition duration-300">
+            <a href="https://github.com/sumiitkumar" target="_blank" rel="noopener noreferrer" className="text-green-600 hover:text-green-700 transition duration-300">
               <FaGithub className="text-2xl" />
             </a>
-            <a href="#contact" className="px-6 py-2 bg-gradient-to-r from-cyan-600 to-blue-600 hover:from-cyan-500 hover:to-blue-500 text-white font-medium rounded-lg hover:shadow-lg hover:shadow-cyan-500/50 transition">
+            <a href="#contact" onClick={e => handleInstantScroll(e, "contact")} className="px-6 py-2 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg hover:shadow-lg hover:shadow-green-200 transition">
               Get In Touch
             </a>
           </div>
 
           {/* Mobile Menu Button */}
           <div className="md:hidden flex items-center gap-2">
-            <a href="https://github.com/sumiitkumar" target="_blank" rel="noopener noreferrer" className="text-cyan-400">
+            <a href="https://github.com/sumiitkumar" target="_blank" rel="noopener noreferrer" className="text-green-600">
               <FaGithub className="text-2xl" />
             </a>
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="text-slate-200 hover:text-cyan-400 focus:outline-none"
+              className="text-green-700 hover:text-green-600 focus:outline-none"
             >
               {isOpen ? (
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none"
@@ -64,40 +75,47 @@ const Navbar = () => {
 
       {/* Mobile Menu */}
       {isOpen && (
-        <div className="md:hidden bg-slate-800 border-t border-cyan-500/20">
+        <div className="md:hidden bg-white border-t border-green-200">
           <div className="px-2 pt-2 pb-3 space-y-1 sm:px-3">
             <a
               href="#home"
-              onClick={() => setIsOpen(false)}
-              className="block px-4 py-2 text-slate-200 hover:text-cyan-400 font-medium transition rounded"
+              onClick={e => handleInstantScroll(e, "home")}
+              className="block px-4 py-2 text-green-700 hover:text-green-600 font-medium transition rounded"
             >
               Home
             </a>
             <a
               href="#about"
-              onClick={() => setIsOpen(false)}
-              className="block px-4 py-2 text-slate-200 hover:text-cyan-400 font-medium transition rounded"
+              onClick={e => handleInstantScroll(e, "about")}
+              className="block px-4 py-2 text-green-700 hover:text-green-600 font-medium transition rounded"
             >
               About
             </a>
             <a
               href="#skills"
-              onClick={() => setIsOpen(false)}
-              className="block px-4 py-2 text-slate-200 hover:text-cyan-400 font-medium transition rounded"
+              onClick={e => handleInstantScroll(e, "skills")}
+              className="block px-4 py-2 text-green-700 hover:text-green-600 font-medium transition rounded"
             >
               Skills
             </a>
             <a
               href="#projects"
-              onClick={() => setIsOpen(false)}
-              className="block px-4 py-2 text-slate-200 hover:text-cyan-400 font-medium transition rounded"
+              onClick={e => handleInstantScroll(e, "projects")}
+              className="block px-4 py-2 text-green-700 hover:text-green-600 font-medium transition rounded"
             >
               Projects
             </a>
+            <Link
+              to="/blog"
+              onClick={() => setIsOpen(false)}
+              className="block px-4 py-2 text-green-700 hover:text-green-600 font-medium transition rounded"
+            >
+              Blog
+            </Link>
             <a
               href="#contact"
-              onClick={() => setIsOpen(false)}
-              className="block px-4 py-2 text-slate-200 hover:text-cyan-400 font-medium transition rounded"
+              onClick={e => handleInstantScroll(e, "contact")}
+              className="block px-4 py-2 text-green-700 hover:text-green-600 font-medium transition rounded"
             >
               Contact
             </a>

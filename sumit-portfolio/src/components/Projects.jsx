@@ -48,7 +48,7 @@ const Projects = () => {
   return (
     <section
       id="projects"
-      className="min-h-screen bg-gradient-to-b from-slate-900 via-slate-800 to-slate-900 text-white flex flex-col justify-center items-center px-6 py-16 relative overflow-hidden"
+      className="min-h-screen bg-white text-green-900 flex flex-col justify-center items-center px-6 py-16 relative overflow-hidden"
     >
       {/* Background elements */}
       <div className="absolute top-0 left-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl"></div>
@@ -56,10 +56,10 @@ const Projects = () => {
 
       <div className="max-w-6xl w-full relative z-10">
         <div className="text-center mb-16">
-          <h2 className="text-4xl sm:text-5xl font-bold mb-4">
-            Featured <span className="bg-gradient-to-r from-cyan-400 to-blue-400 bg-clip-text text-transparent">Projects</span>
+          <h2 className="text-4xl sm:text-5xl font-bold mb-4 text-green-700">
+            Projects
           </h2>
-          <p className="text-slate-300 max-w-2xl mx-auto text-lg">
+          <p className="text-green-700 max-w-2xl mx-auto text-lg">
             Production-ready DevOps implementations and cloud infrastructure projects
           </p>
         </div>
@@ -68,38 +68,38 @@ const Projects = () => {
           {projectData.map((project) => (
             <div
               key={project.id}
-              className="bg-slate-800/50 border border-cyan-500/30 rounded-lg overflow-hidden hover:border-cyan-500/60 transition-all duration-300 hover:shadow-2xl hover:shadow-cyan-500/20 group flex flex-col"
+              className="bg-green-50 border border-green-200 rounded-lg overflow-hidden hover:border-green-400 transition-all duration-300 hover:shadow-lg group flex flex-col"
             >
               {/* Header */}
-              <div className="bg-gradient-to-r from-cyan-600 to-blue-600 px-6 py-4 border-b border-cyan-500/20">
+              <div className="bg-green-100 px-6 py-4 border-b border-green-200">
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="text-lg font-semibold text-white flex-1">
+                  <h3 className="text-lg font-semibold text-green-700 flex-1">
                     {project.title}
                   </h3>
-                  <FaCheckCircle className="text-green-400 text-xl flex-shrink-0" />
+                  <FaCheckCircle className="text-green-500 text-xl flex-shrink-0" />
                 </div>
               </div>
 
               {/* Content */}
               <div className="p-6 flex flex-col flex-grow">
-                <p className="text-slate-300 mb-6 text-sm leading-relaxed flex-grow">
+                <p className="text-green-800 mb-6 text-sm leading-relaxed flex-grow">
                   {project.description}
                 </p>
 
                 {/* Tools */}
-                <div className="mb-6 pb-6 border-b border-slate-700/50">
-                  <p className="text-xs text-cyan-300 font-semibold mb-3 uppercase tracking-wider">Technologies</p>
+                <div className="mb-6 pb-6 border-b border-green-100">
+                  <p className="text-xs text-green-600 font-semibold mb-3 uppercase tracking-wider">Technologies</p>
                   <div className="flex gap-3 flex-wrap">
                     {project.tools.map((toolName, idx) => (
                       <div
                         key={idx}
-                        className="flex items-center gap-2 px-3 py-1 bg-slate-900/50 border border-slate-700/50 rounded-md hover:border-cyan-500/50 transition"
+                        className="flex items-center gap-2 px-3 py-1 bg-white border border-green-100 rounded-md hover:border-green-400 transition"
                         title={toolName}
                       >
                         <span className="text-lg">
                           {typeof toolIcons[toolName] === "string" ? toolIcons[toolName] : toolIcons[toolName]}
                         </span>
-                        <span className="text-xs text-slate-300 capitalize">{toolName}</span>
+                        <span className="text-xs text-green-700 capitalize">{toolName}</span>
                       </div>
                     ))}
                   </div>
@@ -112,7 +112,7 @@ const Projects = () => {
                       href={project.github}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 inline-flex items-center justify-center gap-2 text-slate-200 hover:text-cyan-300 transition bg-slate-900/50 border border-slate-700/50 hover:border-cyan-500/50 px-4 py-2 rounded-lg hover:bg-slate-900/80 font-medium text-sm"
+                      className="flex-1 inline-flex items-center justify-center gap-2 text-green-700 hover:text-green-900 transition bg-white border border-green-100 hover:border-green-400 px-4 py-2 rounded-lg hover:bg-green-50 font-medium text-sm"
                     >
                       <FaGithub /> Code
                     </a>
@@ -122,7 +122,7 @@ const Projects = () => {
                       href={project.live}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex-1 inline-flex items-center justify-center gap-2 text-slate-200 hover:text-cyan-300 transition bg-slate-900/50 border border-slate-700/50 hover:border-cyan-500/50 px-4 py-2 rounded-lg hover:bg-slate-900/80 font-medium text-sm"
+                      className="flex-1 inline-flex items-center justify-center gap-2 text-green-700 hover:text-green-900 transition bg-white border border-green-100 hover:border-green-400 px-4 py-2 rounded-lg hover:bg-green-50 font-medium text-sm"
                     >
                       <FaExternalLinkAlt /> Live
                     </a>

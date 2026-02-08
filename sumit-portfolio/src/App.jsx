@@ -1,28 +1,36 @@
+
+
+
 import About from "./components/About"
+import Blog from "./components/Blog"
 import Contact from "./components/Contact"
-import Footer from "./components/Footer"
 import Hero from "./components/Hero"
 import Navbar from "./components/Navbar"
 import Projects from "./components/Projects"
-import Resume from "./components/Resume"
 import Skills from "./components/Skills"
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
-const App = ()=>{
-  return(
-    <>
-    <Navbar/>
-    <Hero/>
-    <About/>
-    <Skills/>
-    <Projects/>
-    <Resume/>
-    <Contact/>
-    <Footer />
-    
-    
-    </>
-  )
-}
 
-export default App
+const App = () => (
+  <Router basename="/sumit-portfolio">
+    <Navbar />
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <>
+            <Hero />
+            <About />
+            <Skills />
+            <Projects />
+            <Contact />
+          </>
+        }
+      />
+      <Route path="/blog" element={<Blog />} />
+    </Routes>
+  </Router>
+);
+
+export default App;

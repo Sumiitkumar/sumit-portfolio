@@ -1,4 +1,14 @@
+
 @import "tailwindcss";
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: #fff;
+  color: #14532d;
+}
 
 /* Terminal-like animations */
 @keyframes fadeIn {
@@ -36,19 +46,19 @@
 
 @keyframes glow {
   0%, 100% {
-    box-shadow: 0 0 20px rgba(34, 211, 238, 0.3);
+    box-shadow: 0 0 20px rgba(34, 197, 94, 0.3); /* green-500 */
   }
   50% {
-    box-shadow: 0 0 30px rgba(34, 211, 238, 0.6);
+    box-shadow: 0 0 30px rgba(34, 197, 94, 0.6);
   }
 }
 
 @keyframes pulse-border {
   0%, 100% {
-    border-color: rgba(34, 211, 238, 0.3);
+    border-color: rgba(34, 197, 94, 0.3);
   }
   50% {
-    border-color: rgba(34, 211, 238, 0.8);
+    border-color: rgba(34, 197, 94, 0.8);
   }
 }
 
@@ -105,16 +115,16 @@
 }
 
 ::-webkit-scrollbar-track {
-  background: rgba(15, 23, 42, 0.5);
+  background: rgba(34, 197, 94, 0.05);
 }
 
 ::-webkit-scrollbar-thumb {
-  background: rgba(34, 211, 238, 0.5);
+  background: rgba(34, 197, 94, 0.3);
   border-radius: 5px;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(34, 211, 238, 0.8);
+  background: rgba(34, 197, 94, 0.6);
 }
 
 /* Smooth transitions */
@@ -126,7 +136,7 @@
 input:focus,
 textarea:focus {
   outline: none;
-  box-shadow: 0 0 0 2px rgba(34, 211, 238, 0.2);
+  box-shadow: 0 0 0 2px rgba(34, 197, 94, 0.2);
 }
 
 /* Glass morphism effect */
@@ -138,7 +148,7 @@ textarea:focus {
 
 /* Gradient text */
 .gradient-text {
-  background: linear-gradient(to right, rgb(34, 211, 238), rgb(59, 130, 246));
+  background: linear-gradient(to right, #22c55e, #16a34a);
   background-clip: text;
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -147,5 +157,5 @@ textarea:focus {
 /* Cyberpunk border */
 .cyber-border {
   border: 1px solid;
-  border-image: linear-gradient(135deg, rgba(34, 211, 238, 0.5), rgba(59, 130, 246, 0.5)) 1;
+  border-image: linear-gradient(135deg, rgba(34, 197, 94, 0.5), rgba(22, 163, 74, 0.5)) 1;
 }
