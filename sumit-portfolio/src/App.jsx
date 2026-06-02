@@ -13,7 +13,7 @@ import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 
 
 const App = () => (
-  <Router basename="/sumit-portfolio">
+  <Router basename="/">
     <Navbar />
     <Routes>
       <Route

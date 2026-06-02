@@ -2,7 +2,7 @@
 
 A modern, interactive DevOps portfolio built with **React**, **Vite**, and **Tailwind CSS**. Showcasing skills, projects, and experience in cloud infrastructure, CI/CD, and automation.
 
-🌐 **Live Portfolio:** [https://sumiitkumar.github.io/sumit-portfolio/](https://sumiitkumar.github.io/sumit-portfolio/)
+🌐 **Live Portfolio:** [https://sumit.cloud/](https://sumit.cloud/)
 
 ---
 
