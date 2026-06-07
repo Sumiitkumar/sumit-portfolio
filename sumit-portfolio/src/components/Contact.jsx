@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { FaGithub, FaLinkedin, FaTwitter, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
+import { FaGithub, FaLinkedin, FaPhoneAlt, FaEnvelope } from "react-icons/fa";
 import { SiGmail } from "react-icons/si";
 
 const Contact = () => {
@@ -98,15 +98,6 @@ const Contact = () => {
               aria-label="LinkedIn"
             >
               <FaLinkedin className="group-hover:scale-110 transition" /> LinkedIn
-            </a>
-            <a
-              href="https://twitter.com/sumiitkumar"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="px-6 py-3 bg-white border border-green-100 text-green-700 hover:text-green-900 hover:border-green-400 transition-all hover:shadow-lg hover:bg-green-50 rounded-lg flex items-center gap-2 font-medium group"
-              aria-label="Twitter"
-            >
-              <FaTwitter className="group-hover:scale-110 transition" /> Twitter
             </a>
           </div>
         </div>
