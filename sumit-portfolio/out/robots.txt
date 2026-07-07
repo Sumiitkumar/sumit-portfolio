@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://Sumiitkumar.github.io/sumit-portfolio/sitemap.xml
