@@ -1,18 +1,16 @@
 import Hero from '@/components/Hero'
 import About from '@/components/About'
 import Skills from '@/components/Skills'
-import ResumeSection from '@/components/ResumeSection'
-import ContactSection from '@/components/ContactSection'
+import Blog from '@/components/Blog'
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-background text-slate-900">
+    <main className="min-h-screen bg-white text-slate-900">
       <div className="overflow-hidden">
         <Hero />
         <About />
         <Skills />
-        <ResumeSection />
-        <ContactSection />
+        <Blog />
       </div>
     </main>
   )
