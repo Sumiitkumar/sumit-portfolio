@@ -1,0 +1,67 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+
+const posts = (await getCollection("blogs", ({ data }) => !data.draft)).sort(
+  (first, second) => second.data.pubDate.valueOf() - first.data.pubDate.valueOf(),
+);
+---
+
+<SiteLayout
+  title="Blogs | Sumit Kumar"
+  description="Articles and notes on DevOps, Kubernetes, cloud infrastructure, and observability by Sumit Kumar."
+>
+  <main class="page">
+    <article class="sheet">
+      <nav class="topnav" aria-label="Primary navigation">
+        <a class="brand" href="/">Sumit Kumar</a>
+        <div class="navlinks">
+          <a class="active" href="/blogs/">Blogs</a>
+          <a href="/#experience">Experience</a>
+          <a href="/#skills">Skills</a>
+          <a href="/#about">About</a>
+        </div>
+      </nav>
+
+      <header class="blog-heading">
+        <p class="subname">WRITING / FIELD NOTES</p>
+        <h1>Blogs</h1>
+        <p>Notes on DevOps, Kubernetes, cloud infrastructure, and reliability.</p>
+      </header>
+
+      <section class="blog-list" aria-label="Published blog posts">
+        {posts.length > 0 ? (
+          posts.map((post) => (
+            <article class="blog-entry">
+              <p class="blog-date">
+                <time datetime={post.data.pubDate.toISOString()}>
+                  {post.data.pubDate.toLocaleDateString("en", {
+                    year: "numeric",
+                    month: "long",
+                    day: "numeric",
+                  })}
+                </time>
+              </p>
+              <h2><a href={`/blogs/${post.slug}/`}>{post.data.title}</a></h2>
+              <p class="blog-description">{post.data.description}</p>
+              {post.data.tags.length > 0 && (
+                <p class="blog-tags">{post.data.tags.join(" / ")}</p>
+              )}
+              <a
+                class="blog-read-more"
+                href={`/blogs/${post.slug}/`}
+                aria-label={`Read more: ${post.data.title}`}
+              >
+                Read more <span aria-hidden="true">→</span>
+              </a>
+            </article>
+          ))
+        ) : (
+          <p class="blog-empty">No published posts yet.</p>
+        )}
+      </section>
+
+      <p class="blog-back"><a href="/">← Back to portfolio</a></p>
+    </article>
+  </main>
+</SiteLayout>

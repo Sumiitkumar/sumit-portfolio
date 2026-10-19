@@ -1,0 +1,52 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../../layouts/SiteLayout.astro";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blogs", ({ data }) => !data.draft);
+
+  return posts.map((post) => ({
+    params: { slug: post.slug },
+    props: { post },
+  }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+---
+
+<SiteLayout title={`${post.data.title} | Sumit Kumar`} description={post.data.description}>
+  <main class="page">
+    <article class="sheet">
+      <nav class="topnav" aria-label="Primary navigation">
+        <a class="brand" href="/">Sumit Kumar</a>
+        <div class="navlinks">
+          <a class="active" href="/blogs/">Blogs</a>
+          <a href="/#experience">Experience</a>
+          <a href="/#skills">Skills</a>
+          <a href="/#about">About</a>
+        </div>
+      </nav>
+
+      <article class="blog-post">
+        <p class="blog-back"><a href="/blogs/">← All blogs</a></p>
+        <header class="blog-post-heading">
+          <p class="blog-date">
+            <time datetime={post.data.pubDate.toISOString()}>
+              {post.data.pubDate.toLocaleDateString("en", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </time>
+          </p>
+          <h1>{post.data.title}</h1>
+          <p class="blog-description">{post.data.description}</p>
+        </header>
+        <div class="blog-content">
+          <Content />
+        </div>
+      </article>
+    </article>
+  </main>
+</SiteLayout>

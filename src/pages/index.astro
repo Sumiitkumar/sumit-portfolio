@@ -1,0 +1,176 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+import portrait from "../../assets/WhatsApp Image 2025-09-10 at 3.46.09 PM.jpeg";
+---
+
+<SiteLayout
+  title="Sumit Kumar | DevOps Engineer"
+  description="Sumit Kumar is a DevOps Engineer with 3 years of experience building cloud-native infrastructure, CI/CD platforms, and observability systems."
+>
+  <main class="page">
+    <article class="sheet" aria-label="Sumit Kumar portfolio">
+      <nav class="topnav" aria-label="Primary navigation">
+        <a class="brand active" href="/">Sumit Kumar</a>
+        <div class="navlinks">
+          <a href="/blogs/">Blogs</a>
+          <a href="#experience">Experience</a>
+          <a href="#skills">Skills</a>
+          <a href="#about">About</a>
+        </div>
+      </nav>
+
+      <header class="intro" id="top">
+        <div class="intro-copy">
+          <h1>Sumit Kumar</h1>
+          <p class="subname">DevOps Engineer</p>
+          <p class="summary">
+            DevOps Engineer with 3 years of experience designing, automating,
+            and scaling cloud-native infrastructure and enterprise CI/CD
+            platforms. Specialized in Kubernetes, Docker, Helm, AWS, Terraform,
+            GitOps, and high-volume observability.
+          </p>
+          <div class="quicklinks" aria-label="Social links">
+            Links:
+            <a href="mailto:sumiitkumar.it@gmail.com">Email</a>
+            <a href="https://github.com/sumiitkumar">GitHub</a>
+            <a href="https://www.linkedin.com/in/sumiitkumar">LinkedIn</a>
+          </div>
+        </div>
+        <div class="portrait-frame">
+          <img class="portrait-image" src={portrait.src} alt="Sumit Kumar" />
+          <span class="portrait-fallback" aria-hidden="true">SK</span>
+        </div>
+      </header>
+
+      <section id="about" class="section about-section">
+        <div class="section-heading">
+          <h2>About</h2>
+        </div>
+        <div class="copy">
+          <p>
+            I design, automate, and scale cloud-native infrastructure and
+            enterprise CI/CD platforms. My work focuses on Kubernetes, Docker,
+            Helm, AWS, Terraform, GitLab CI/CD, and GitOps workflows. I build
+            observability pipelines with Prometheus, Grafana, OpenTelemetry,
+            Vector, Kafka, and ClickHouse to improve system reliability,
+            deployment velocity, and operational efficiency.
+          </p>
+        </div>
+      </section>
+
+      <section id="experience" class="section">
+        <div class="section-heading">
+          <h2>Experience</h2>
+        </div>
+        <div class="entries experience-list">
+          <article class="entry">
+            <p class="time">Dec 2025 - Mar 2026</p>
+            <h3>DevOps Engineer, Maiora</h3>
+            <p class="muted">Bangalore, India</p>
+            <p class="muted">Technologies: Docker, Kubernetes, Prometheus, Grafana, OpenTelemetry, AWS</p>
+            <ul>
+              <li>Engineered an AI-powered troubleshooting assistant for Kubernetes and cloud infrastructure, reducing Mean Time to Resolution (MTTR) by 50% through automated root-cause analysis.</li>
+              <li>Architected an end-to-end observability platform using Prometheus, Grafana, OpenTelemetry, Vector, Kafka, and ClickHouse, cutting troubleshooting time by 50%.</li>
+              <li>Orchestrated scalable GitOps-based CI/CD pipelines supporting multiple daily production releases, accelerating delivery while maintaining deployment reliability.</li>
+              <li>Implemented OIDC with IAM Roles for Service Accounts (IRSA) on AWS, eliminating static IAM credentials.</li>
+              <li>Integrated Trivy into deployment pipelines for automated container vulnerability scanning, ensuring compliance and zero high-severity flaws in production.</li>
+              <li>Led migration of enterprise container images to a private Harbor registry, standardizing image security and management across engineering teams.</li>
+              <li>Configured Istio service mesh for microservice traffic management, mTLS encryption, and cross-service observability.</li>
+            </ul>
+          </article>
+          <article class="entry">
+            <p class="time">Jan 2022 - Jun 2024</p>
+            <h3>DevOps Engineer, Brillio</h3>
+            <p class="muted">Bangalore, India</p>
+            <p class="muted">Technologies: Docker, Kubernetes, Terraform, Prometheus, Grafana, Azure</p>
+            <ul>
+              <li>Built a custom Kubernetes Admission Controller to validate and mutate resource configurations before deployment, enforcing enterprise security policies across clusters.</li>
+              <li>Automated multi-environment cloud provisioning with reusable Azure ARM/Bicep templates, reducing manual setup effort by 35% and improving deployment consistency.</li>
+              <li>Developed Python and PowerShell automation scripts that saved more than 10 engineering hours each week.</li>
+              <li>Implemented Azure Entra ID (Azure AD) for enterprise identity management and granular role-based access control across cloud resources.</li>
+              <li>Automated incident workflows with Azure Logic Apps to detect Azure Data Factory pipeline failures and instantly log Azure DevOps work items, cutting response time by 40%.</li>
+            </ul>
+          </article>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Selected Work</h2>
+        </div>
+        <div class="entries">
+          <div class="entry">
+            <p class="time">2025 - 2026</p>
+            <div>
+              <h3>DevOps Agentic AI Assistant</h3>
+              <p class="muted">Python, Docker, Kubernetes, GitHub, AWS, CrewAI</p>
+              <ul>
+                <li>Built an agentic AI-powered DevOps assistant using LLMs to automate incident analysis, log investigation, and root-cause identification across Kubernetes environments.</li>
+                <li>Integrated Kubernetes, Prometheus, Grafana, and Loki APIs for AI-driven troubleshooting, cluster health analysis, and actionable remediation recommendations.</li>
+              </ul>
+            </div>
+          </div>
+          <div class="entry">
+            <div>
+              <h3>Kubernetes Custom Controller</h3>
+              <p class="muted">Kubernetes, Docker, Go, client-go, Kubebuilder</p>
+              <ul>
+                <li>Developed a custom Kubernetes controller in Go with Kubebuilder and controller-runtime to automate application lifecycle management through reconciliation loops.</li>
+                <li>Designed Custom Resource Definitions (CRDs) to manage application deployments, configuration updates, and scaling operations in Kubernetes clusters.</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="skills" class="section">
+        <div class="section-heading">
+          <h2>Technical Skills</h2>
+        </div>
+        <div class="skill-list">
+          <p><strong>Programming:</strong> Python, Bash, Terraform, Helm</p>
+          <p><strong>Cloud &amp; DevOps:</strong> AWS (EC2, EKS, S3, IAM, CloudWatch), Azure, Kubernetes, Docker, GitLab CI/CD, GitHub Actions, ArgoCD</p>
+          <p><strong>Infrastructure as Code:</strong> Terraform, Helm</p>
+          <p><strong>Observability:</strong> Prometheus, Grafana, OpenTelemetry, Vector (Elastic), Kafka, ClickHouse</p>
+          <p><strong>Service Mesh:</strong> Istio, Gateway API</p>
+          <p><strong>AI Tools:</strong> GitHub Copilot, Claude, Gemini</p>
+          <p><strong>Source Control:</strong> Git, GitHub, GitLab</p>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Writing</h2>
+        </div>
+        <div class="links">
+          <a href="/blogs/">Visit the blog</a>
+        </div>
+      </section>
+
+      <section class="section">
+        <div class="section-heading">
+          <h2>Links</h2>
+        </div>
+        <div class="links">
+          <a href="mailto:sumiitkumar.it@gmail.com">sumiitkumar.it@gmail.com</a>
+          <a href="https://github.com/sumiitkumar">GitHub</a>
+          <a href="https://www.linkedin.com/in/sumiitkumar">LinkedIn</a>
+        </div>
+      </section>
+    </article>
+  </main>
+
+  <script>
+    const portraitImage = document.querySelector(".portrait-image");
+    const portraitFrame = document.querySelector(".portrait-frame");
+
+    if (portraitImage instanceof HTMLImageElement && portraitFrame) {
+      const showPortrait = () => portraitFrame.classList.add("has-image");
+      portraitImage.addEventListener("load", showPortrait);
+
+      if (portraitImage.complete && portraitImage.naturalWidth > 0) {
+        showPortrait();
+      }
+    }
+  </script>
+</SiteLayout>
