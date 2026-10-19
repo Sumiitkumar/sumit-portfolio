@@ -1,6 +1,10 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
 import portrait from "../../assets/WhatsApp Image 2025-09-10 at 3.46.09 PM.jpeg";
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
 ---
 
 <SiteLayout
@@ -10,9 +14,9 @@ import portrait from "../../assets/WhatsApp Image 2025-09-10 at 3.46.09 PM.jpeg"
   <main class="page">
     <article class="sheet" aria-label="Sumit Kumar portfolio">
       <nav class="topnav" aria-label="Primary navigation">
-        <a class="brand active" href="/">Sumit Kumar</a>
+        <a class="brand active" href={base}>Sumit Kumar</a>
         <div class="navlinks">
-          <a href="/blogs/">Blogs</a>
+          <a href={`${base}blogs/`}>Blogs</a>
           <a href="#experience">Experience</a>
           <a href="#skills">Skills</a>
           <a href="#about">About</a>
@@ -143,7 +147,7 @@ import portrait from "../../assets/WhatsApp Image 2025-09-10 at 3.46.09 PM.jpeg"
           <h2>Writing</h2>
         </div>
         <div class="links">
-          <a href="/blogs/">Visit the blog</a>
+          <a href={`${base}blogs/`}>Visit the blog</a>
         </div>
       </section>
 

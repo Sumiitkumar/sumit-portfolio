@@ -37,4 +37,15 @@ Published posts appear at `/blogs/` and `/blogs/<filename>/`.
 
 Run `npm run build`; the static site is written to `dist/`. Configure the hosting provider to build with `npm run build` and publish `dist/`. Connect the Git repository to a provider with automatic deployments to publish each pushed change. No database or server-side runtime is required for blog posts.
 
-The exact automatic-deployment setup depends on the provider currently serving `sumit.cloud`.
+## GitHub Pages
+
+The repository workflow builds and deploys the `main` branch to the project site at `https://sumiitkumar.github.io/sumit-portfolio/`. Pull requests run the build without deploying.
+
+One-time setup in GitHub:
+
+1. Open the repository's **Settings**.
+2. Open **Pages** under **Code and automation**.
+3. Set **Build and deployment** source to **GitHub Actions**.
+4. Push to `main`, or run the **Deploy to GitHub Pages** workflow from the Actions tab.
+
+The workflow runs `npm ci` and `npm run build`, then publishes `dist/`. For a custom domain such as `sumit.cloud`, add the domain in Pages settings and configure its DNS; the Astro base path must then be changed to `/` for the custom-domain build.

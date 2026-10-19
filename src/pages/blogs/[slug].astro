@@ -2,6 +2,10 @@
 import { getCollection } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 
+const base = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
 export async function getStaticPaths() {
   const posts = await getCollection("blogs", ({ data }) => !data.draft);
 
@@ -19,17 +23,17 @@ const { Content } = await post.render();
   <main class="page">
     <article class="sheet">
       <nav class="topnav" aria-label="Primary navigation">
-        <a class="brand" href="/">Sumit Kumar</a>
+        <a class="brand" href={base}>Sumit Kumar</a>
         <div class="navlinks">
-          <a class="active" href="/blogs/">Blogs</a>
-          <a href="/#experience">Experience</a>
-          <a href="/#skills">Skills</a>
-          <a href="/#about">About</a>
+          <a class="active" href={`${base}blogs/`}>Blogs</a>
+          <a href={`${base}#experience`}>Experience</a>
+          <a href={`${base}#skills`}>Skills</a>
+          <a href={`${base}#about`}>About</a>
         </div>
       </nav>
 
       <article class="blog-post">
-        <p class="blog-back"><a href="/blogs/">← All blogs</a></p>
+        <p class="blog-back"><a href={`${base}blogs/`}>← All blogs</a></p>
         <header class="blog-post-heading">
           <p class="blog-date">
             <time datetime={post.data.pubDate.toISOString()}>
