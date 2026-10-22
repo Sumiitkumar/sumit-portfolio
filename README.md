@@ -43,6 +43,8 @@ Run `npm run build`; the static site is written to `dist/`. Configure the hostin
 
 After deploying, verify both domains and submit `https://sumit.cloud/sitemap.xml` in Google Search Console. GitHub Pages must have the custom domain `sumit.cloud` configured, and its DNS must point to GitHub Pages.
 
+Google Analytics 4 is configured with measurement ID `G-K5CVG3DB2R`. Analytics data starts collecting after this version is deployed; check the GA4 Realtime report to verify visits. The same tag runs on both the apex and `www` hostnames.
+
 ## GitHub Pages
 
 The repository workflow builds and deploys the `main` branch to GitHub Pages. Pull requests run the build without deploying. The site uses the custom domain `sumit.cloud` and is built with a root base path (`/`) so stylesheets, images, and page links resolve correctly there.

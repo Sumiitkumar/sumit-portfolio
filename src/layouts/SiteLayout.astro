@@ -1,6 +1,6 @@
 ---
 import "../../styles.css";
-import { SITE_URL } from "../consts";
+import { GA_MEASUREMENT_ID, SITE_URL } from "../consts";
 
 interface Props {
   title: string;
@@ -29,6 +29,18 @@ const canonicalURL = new URL(Astro.url.pathname, SITE_URL).href;
     <meta name="twitter:title" content={title} />
     <meta name="twitter:description" content={description} />
     <title>{title}</title>
+    <script
+      async
+      src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}
+    ></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() {
+        window.dataLayer.push(arguments);
+      }
+      gtag("js", new Date());
+      gtag("config", "G-K5CVG3DB2R");
+    </script>
   </head>
   <body>
     <slot />
