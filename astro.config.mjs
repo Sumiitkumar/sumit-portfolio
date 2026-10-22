@@ -1,7 +1,8 @@
 import { defineConfig } from "astro/config";
+import { SITE_URL } from "./src/consts.ts";
 
 export default defineConfig({
-  site: "https://sumiitkumar.github.io",
+  site: SITE_URL,
   base: "/",
   output: "static",
 });
