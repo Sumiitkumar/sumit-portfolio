@@ -1,0 +1,121 @@
+---
+import SiteLayout from "../layouts/SiteLayout.astro";
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+---
+
+<SiteLayout
+  title="Privacy Policy | Sumit Kumar"
+  description="Learn how the Sumit Kumar website handles information, cookies, analytics, and advertising."
+>
+  <main class="page">
+    <article class="sheet">
+      <nav class="topnav" aria-label="Primary navigation">
+        <a class="brand" href={base}>Sumit Kumar</a>
+        <div class="navlinks">
+          <a href={`${base}blogs/`}>Blogs</a>
+          <a href={`${base}#experience`}>Experience</a>
+          <a href={`${base}#skills`}>Skills</a>
+          <a href={`${base}#about`}>About</a>
+        </div>
+      </nav>
+
+      <article class="privacy-policy">
+        <header class="privacy-heading">
+          <p class="subname">WEBSITE INFORMATION</p>
+          <h1>Privacy Policy</h1>
+          <p>Last updated: October 22, 2026</p>
+        </header>
+
+        <p>
+          This Privacy Policy explains how information may be collected and
+          used when you visit sumit.cloud (the “website”). If you have
+          questions, contact <a href="mailto:sumiitkumar.it@gmail.com">Sumit Kumar</a>.
+        </p>
+
+        <h2>Information We Collect</h2>
+        <p>
+          This site does not provide visitor accounts or forms. If you contact
+          me by email, I receive the information you choose to include, such as
+          your email address and message.
+        </p>
+        <p>
+          When you visit, the site and its service providers may automatically
+          process technical and usage information, such as your IP address,
+          browser and device details, pages viewed, referring page, and visit
+          time. Hosting providers may process server logs to deliver and protect
+          the site.
+        </p>
+
+        <h2>Cookies, Analytics, and Advertising</h2>
+        <p>
+          This site uses Google Analytics to understand site traffic and
+          performance. Google may use cookies or similar technologies to
+          collect usage information. You can learn how Google handles data at
+          <a href="https://policies.google.com/privacy">Google’s Privacy Policy</a>
+          and opt out of Google Analytics with the
+          <a href="https://tools.google.com/dlpage/gaoptout">Google Analytics opt-out browser add-on</a>.
+        </p>
+        <p>
+          This site also uses Google AdSense to provide advertising. Google and
+          its partners may use cookies or similar technologies to show, measure,
+          and personalize ads, including based on your visits to this or other
+          websites, subject to your settings and applicable law. You can manage
+          Google ad personalization in
+          <a href="https://myadcenter.google.com/">My Ad Center</a> and review
+          <a href="https://policies.google.com/technologies/ads">Google’s information about advertising</a>.
+          Your browser settings may also allow you to block or delete cookies;
+          some site or third-party features may then work differently.
+        </p>
+
+        <h2>How Information Is Used</h2>
+        <p>Information may be used to:</p>
+        <ul>
+          <li>operate, maintain, and protect the website;</li>
+          <li>understand site usage and improve its content and performance;</li>
+          <li>display and measure advertising; and</li>
+          <li>respond to messages you send.</li>
+        </ul>
+
+        <h2>Sharing and Third-Party Services</h2>
+        <p>
+          Information may be processed by service providers that support
+          hosting, analytics, and advertising, including Google. Their handling
+          of information is governed by their own privacy policies and settings.
+          This site does not sell personal information.
+        </p>
+
+        <h2>Data Retention and Your Choices</h2>
+        <p>
+          I do not maintain visitor accounts or a separate visitor profile
+          database. Information submitted by email may be retained as needed to
+          respond and keep correspondence. Analytics, advertising, and hosting
+          providers may retain information according to their own policies and
+          settings. You can control cookies through your browser and use the
+          Google controls linked above.
+        </p>
+
+        <h2>Children’s Privacy</h2>
+        <p>
+          This site is not intended for children under 13, and I do not
+          knowingly collect personal information from children.
+        </p>
+
+        <h2>Changes to This Policy</h2>
+        <p>
+          This policy may be updated as the site or its services change. The
+          updated date at the top of this page indicates when it was last
+          revised.
+        </p>
+
+        <h2>Contact</h2>
+        <p>
+          For privacy questions or requests, email
+          <a href="mailto:sumiitkumar.it@gmail.com">sumiitkumar.it@gmail.com</a>.
+        </p>
+      </article>
+    </article>
+  </main>
+</SiteLayout>

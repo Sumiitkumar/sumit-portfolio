@@ -4,7 +4,12 @@ import { SITE_URL } from "../consts";
 
 export const GET: APIRoute = async () => {
   const posts = await getCollection("blogs", ({ data }) => !data.draft);
-  const paths = ["/", "/blogs/", ...posts.map((post) => `/blogs/${post.slug}/`)];
+  const paths = [
+    "/",
+    "/blogs/",
+    "/privacy-policy/",
+    ...posts.map((post) => `/blogs/${post.slug}/`),
+  ];
   const urls = paths
     .map((path) => `  <url><loc>${new URL(path, SITE_URL).href}</loc></url>`)
     .join("\n");
