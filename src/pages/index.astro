@@ -1,5 +1,6 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
+import { Image } from "astro:assets";
 import portrait from "../../assets/WhatsApp Image 2025-09-10 at 3.46.09 PM.jpeg";
 
 const base = import.meta.env.BASE_URL.endsWith("/")
@@ -41,7 +42,17 @@ const base = import.meta.env.BASE_URL.endsWith("/")
           </div>
         </div>
         <div class="portrait-frame">
-          <img class="portrait-image" src={portrait.src} alt="Sumit Kumar" />
+          <Image
+            class="portrait-image"
+            src={portrait}
+            alt="Sumit Kumar"
+            widths={[132, 154, 308]}
+            sizes="(max-width: 700px) 132px, 154px"
+            format="webp"
+            quality={75}
+            loading="eager"
+            fetchpriority="high"
+          />
           <span class="portrait-fallback" aria-hidden="true">SK</span>
         </div>
       </header>
