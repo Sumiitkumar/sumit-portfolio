@@ -414,6 +414,61 @@ h2 {
   padding: 0 3px;
 }
 
+.site-footer {
+  display: flex;
+  width: min(100% - 40px, 652px);
+  min-height: 54px;
+  align-items: center;
+  justify-content: space-between;
+  margin: -38px auto 20px;
+  color: var(--muted);
+  font-family: var(--mono);
+  font-size: 11px;
+}
+
+.privacy-policy {
+  padding: 46px 0 54px;
+}
+
+.privacy-heading {
+  padding-bottom: 24px;
+  border-bottom: 1px solid var(--line);
+  margin-bottom: 28px;
+}
+
+.privacy-heading h1 {
+  margin: 8px 0;
+  font-size: clamp(30px, 7vw, 42px);
+  line-height: 1.15;
+}
+
+.privacy-heading p:last-child,
+.privacy-policy p,
+.privacy-policy li {
+  color: var(--muted);
+}
+
+.privacy-policy h2 {
+  margin: 30px 0 8px;
+  font-size: 19px;
+  line-height: 1.35;
+}
+
+.privacy-policy p {
+  margin: 0 0 14px;
+}
+
+.privacy-policy ul {
+  padding-left: 22px;
+  margin: 0 0 18px;
+}
+
+.privacy-policy a {
+  color: var(--green);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
 @keyframes arrive {
   from {
     opacity: 0;
@@ -427,6 +482,11 @@ h2 {
 }
 
 @media (max-width: 680px) {
+  .site-footer {
+    width: min(100% - 28px, 652px);
+    margin-top: -18px;
+  }
+
   .page {
     padding: 14px 12px 30px;
   }
