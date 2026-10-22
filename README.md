@@ -37,6 +37,12 @@ Published posts appear at `/blogs/` and `/blogs/<filename>/`.
 
 Run `npm run build`; the static site is written to `dist/`. Configure the hosting provider to build with `npm run build` and publish `dist/`. Connect the Git repository to a provider with automatic deployments to publish each pushed change. No database or server-side runtime is required for blog posts.
 
+## SEO and domains
+
+`https://sumit.cloud` is the primary domain used for canonical URLs, sitemap entries, and structured data. GitHub Pages serves the same site and keeps its `*.github.io` address available, while canonical metadata signals that `sumit.cloud` is the preferred URL to search engines. The sitemap and robots file are generated at `/sitemap.xml` and `/robots.txt`.
+
+After deploying, verify both domains and submit `https://sumit.cloud/sitemap.xml` in Google Search Console. GitHub Pages must have the custom domain `sumit.cloud` configured, and its DNS must point to GitHub Pages.
+
 ## GitHub Pages
 
 The repository workflow builds and deploys the `main` branch to GitHub Pages. Pull requests run the build without deploying. The site uses the custom domain `sumit.cloud` and is built with a root base path (`/`) so stylesheets, images, and page links resolve correctly there.
