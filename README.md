@@ -39,7 +39,7 @@ Run `npm run build`; the static site is written to `dist/`. Configure the hostin
 
 ## GitHub Pages
 
-The repository workflow builds and deploys the `main` branch to the project site at `https://sumiitkumar.github.io/sumit-portfolio/`. Pull requests run the build without deploying.
+The repository workflow builds and deploys the `main` branch to GitHub Pages. Pull requests run the build without deploying. The site uses the custom domain `sumit.cloud` and is built with a root base path (`/`) so stylesheets, images, and page links resolve correctly there.
 
 One-time setup in GitHub:
 
@@ -48,4 +48,4 @@ One-time setup in GitHub:
 3. Set **Build and deployment** source to **GitHub Actions**.
 4. Push to `main`, or run the **Deploy to GitHub Pages** workflow from the Actions tab.
 
-The workflow runs `npm ci` and `npm run build`, then publishes `dist/`. For a custom domain such as `sumit.cloud`, add the domain in Pages settings and configure its DNS; the Astro base path must then be changed to `/` for the custom-domain build.
+The workflow runs `npm ci` and `npm run build`, then publishes `dist/`. To use a different custom domain, add it in Pages settings and configure its DNS.
