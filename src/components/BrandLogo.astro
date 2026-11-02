@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import { getImage } from "astro:assets";
 import portrait from "../../assets/WhatsApp Image 2025-09-10 at 3.46.09 PM.jpeg";
 
 interface Props {
@@ -7,19 +7,24 @@ interface Props {
 }
 
 const { href } = Astro.props;
+const brandPhoto = await getImage({
+  src: portrait,
+  width: 88,
+  height: 88,
+  fit: "cover",
+  position: "attention",
+  format: "webp",
+});
 ---
 
 <a class="brand-logo" href={href} aria-label="Sumit Kumar, home">
-  <Image
+  <amp-img
     class="brand-photo"
-    src={portrait}
+    src={brandPhoto.src}
     alt=""
     width={88}
     height={88}
-    fit="cover"
-    position="attention"
-    format="webp"
-    loading="eager"
-  />
+    layout="fixed"
+  ></amp-img>
   <span class="brand-name">Sumit Kumar<small>DEVOPS ENGINEER</small></span>
 </a>
