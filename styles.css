@@ -926,43 +926,18 @@ img { display: block; max-width: 100%; }
 .terminal-log p { margin: 0; overflow-wrap: anywhere; }
 .terminal-output { display: block; min-height: 1.6em; color: #859087; }
 .terminal-suggestions { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0; }
-.terminal-suggestions button, .terminal-form button {
+.terminal-suggestions a {
   border: 1px solid #dfe4da;
   border-radius: 99px;
   background: #f6f8f2;
   color: var(--green);
   font: inherit;
-  cursor: pointer;
   transition: background-color 150ms ease, border-color 150ms ease;
 }
-.terminal-suggestions button { padding: 3px 8px; }
-.terminal-suggestions button:hover, .terminal-form button:hover {
+.terminal-suggestions a { padding: 3px 8px; }
+.terminal-suggestions a:hover {
   border-color: #b9cbb5;
   background: #edf3e9;
-}
-.terminal-form {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding-top: 8px;
-  border-top: 1px solid #e6e6de;
-}
-.terminal-form input {
-  width: 100%;
-  min-width: 0;
-  border: 0;
-  outline: 0;
-  background: transparent;
-  color: var(--ink);
-  font: inherit;
-}
-.terminal-form input::placeholder { color: #a0a79e; }
-.terminal-form button {
-  display: grid;
-  width: 27px;
-  height: 25px;
-  flex: 0 0 auto;
-  place-items: center;
 }
 .sr-only {
   position: absolute;
@@ -1293,9 +1268,6 @@ img { display: block; max-width: 100%; }
   .nav-socials { gap: 8px; }
   .hero { padding-top: 57px;   }
 
-  @media (max-width: 360px) {
-    .nav-links a:nth-child(4), .nav-links a:nth-child(5) { display: none; }
-  }
   .eyebrow { font-size: 8px; }
   .hero h1 { font-size: clamp(53px, 12vw, 66px); }
   .hero-summary { font-size: 13px; }
@@ -1343,13 +1315,12 @@ img { display: block; max-width: 100%; }
   .site-footer, .home-page .site-footer, .blog-page .site-footer { width: calc(100% - 30px); }
 }
 
+@media (max-width: 360px) {
+  .nav-links a:nth-child(4), .nav-links a:nth-child(5) { display: none; }
+}
+
 @media (prefers-reduced-motion: reduce) {
-  *, *::before, *::after {
-    scroll-behavior: auto !important;
-    animation-duration: 0.01ms !important;
-    transition-duration: 0.01ms !important;
-  }
-  .motion-ready [data-reveal] { opacity: 1; transform: none; }
+  html { scroll-behavior: auto; }
   .chip-kubernetes, .chip-cloud, .code-cursor { animation: none; }
   .mascot-illustration, .mascot-antenna-tip, .mascot-arm-right, .mascot-eye { animation: none; }
 }

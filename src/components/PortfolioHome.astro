@@ -1,5 +1,5 @@
 ---
-import { Image } from "astro:assets";
+import { getImage } from "astro:assets";
 import {
   ArrowDown,
   ArrowRight,
@@ -22,6 +22,14 @@ import portrait from "../../assets/WhatsApp Image 2025-09-10 at 3.46.09 PM.jpeg"
 const base = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
+const heroPortrait = await getImage({
+  src: portrait,
+  width: 640,
+  fit: "cover",
+  position: "attention",
+  format: "webp",
+  quality: 78,
+});
 
 const skills = [
   { title: "Cloud platforms", items: ["AWS", "Azure", "EKS", "IAM"], icon: Cloud },
@@ -101,17 +109,14 @@ const skills = [
       <div class="hero-orbit orbit-one"></div>
       <div class="hero-orbit orbit-two"></div>
       <div class="portrait-card">
-        <Image
+        <amp-img
           class="hero-portrait"
-          src={portrait}
+          src={heroPortrait.src}
           alt="Portrait of Sumit Kumar"
-          widths={[320, 480, 640]}
-          sizes="(max-width: 760px) 76vw, 430px"
-          format="webp"
-          quality={78}
-          loading="eager"
-          fetchpriority="high"
-        />
+          width={heroPortrait.width}
+          height={heroPortrait.height}
+          layout="fill"
+        ></amp-img>
         <div class="portrait-caption">
           <span class="caption-icon"><Code2 size={17} /></span>
           <span><strong>Engineer by craft</strong><small>Curious by default</small></span>
@@ -127,22 +132,17 @@ const skills = [
           <span class="terminal-ready"><i></i> ready</span>
         </div>
         <div class="terminal-body">
-          <div class="terminal-log" role="log" aria-live="polite" aria-relevant="additions">
+          <div class="terminal-log">
             <p><span class="terminal-prompt">sumit@cloud:~$</span> help</p>
-            <p class="terminal-output">Try: about, skills, experience, work, contact</p>
+            <p class="terminal-output">Choose a command to explore the portfolio.</p>
           </div>
           <div class="terminal-suggestions" aria-label="Suggested commands">
-            <button type="button" data-command="skills">skills</button>
-            <button type="button" data-command="experience">experience</button>
-            <button type="button" data-command="work">work</button>
-            <button type="button" data-command="contact">contact</button>
+            <a href="#about">about</a>
+            <a href="#skills">skills</a>
+            <a href="#experience">experience</a>
+            <a href="#work">work</a>
+            <a href="#contact">contact</a>
           </div>
-          <form class="terminal-form">
-            <label class="sr-only" for="terminal-command">Enter a portfolio command</label>
-            <span class="terminal-prompt" aria-hidden="true">❯</span>
-            <input id="terminal-command" name="command" type="text" placeholder="Type a command..." autocomplete="off" spellcheck="false" />
-            <button type="submit" aria-label="Run command"><ArrowRight size={15} /></button>
-          </form>
         </div>
       </div>
       <div class="hero-index">01 <span>/</span> 04</div>
@@ -293,111 +293,3 @@ const skills = [
   </section>
 
 </main>
-
-<script>
-  import { animate } from "motion/mini";
-
-  const terminal = document.querySelector(".terminal-dock");
-
-  if (terminal instanceof HTMLElement) {
-    const log = terminal.querySelector(".terminal-log");
-    const form = terminal.querySelector(".terminal-form");
-    const input = terminal.querySelector("#terminal-command");
-    const commands = {
-      about: { message: "I build cloud platforms that make shipping feel simpler.", target: "#about" },
-      skills: { message: "Kubernetes · AWS · Terraform · GitOps · Observability", target: "#skills" },
-      experience: { message: "DevOps engineering at Maiora and Brillio.", target: "#experience" },
-      work: { message: "Explore AI incident response and Kubernetes automation.", target: "#work" },
-      contact: { message: "Let's connect: sumiitkumar.it@gmail.com", target: "#contact" },
-    };
-
-    const runCommand = (rawCommand: string) => {
-      if (!(log instanceof HTMLElement)) return;
-      const command = rawCommand.trim().toLowerCase();
-      if (!command) return;
-
-      const prompt = document.createElement("p");
-      const promptText = document.createElement("span");
-      promptText.className = "terminal-prompt";
-      promptText.textContent = "sumit@cloud:~$";
-      prompt.append(promptText, ` ${command}`);
-      log.append(prompt);
-
-      if (command === "clear") {
-        log.replaceChildren();
-      } else {
-        const result = document.createElement("p");
-        result.className = "terminal-output";
-        const response = Object.hasOwn(commands, command) ? commands[command as keyof typeof commands] : undefined;
-
-        if (response) {
-          result.textContent = response.message;
-          log.append(result);
-          document.querySelector(response.target)?.scrollIntoView({
-            behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth",
-            block: "start",
-          });
-        } else {
-          result.textContent = "Command not found. Try: about, skills, experience, work, contact, clear";
-          log.append(result);
-        }
-      }
-
-      while (log.children.length > 10) {
-        log.firstElementChild?.remove();
-      }
-    };
-
-    if (form instanceof HTMLFormElement && input instanceof HTMLInputElement) {
-      form.addEventListener("submit", (event) => {
-        event.preventDefault();
-        runCommand(input.value);
-        input.value = "";
-        input.focus();
-      });
-    }
-
-    terminal.querySelectorAll("[data-command]").forEach((button) => {
-      button.addEventListener("click", () => {
-        if (button instanceof HTMLButtonElement) {
-          runCommand(button.dataset.command ?? "");
-        }
-      });
-    });
-  }
-
-  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
-
-  if (!reduceMotion.matches && "IntersectionObserver" in window) {
-    document.documentElement.classList.add("motion-ready");
-
-    const heroItems = document.querySelectorAll(".hero-copy, .hero-visual");
-    heroItems.forEach((element, index) => {
-      animate(
-        element,
-        { opacity: [0, 1], y: [22, 0] },
-        { duration: 0.8, delay: index * 0.12, ease: [0.22, 1, 0.36, 1] },
-      );
-    });
-
-    const revealObserver = new IntersectionObserver(
-      (entries, observer) => {
-        entries.forEach((entry) => {
-          if (!entry.isIntersecting) return;
-
-          const element = entry.target;
-          animate(
-            element,
-            { opacity: [0, 1], y: [22, 0] },
-            { duration: 0.65, ease: [0.22, 1, 0.36, 1] },
-          );
-          observer.unobserve(element);
-        });
-      },
-      { rootMargin: "0px 0px -8% 0px" },
-    );
-    document
-      .querySelectorAll("[data-reveal]:not(.hero-copy):not(.hero-visual)")
-      .forEach((element) => revealObserver.observe(element));
-  }
-</script>
