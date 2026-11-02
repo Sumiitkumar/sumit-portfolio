@@ -1,6 +1,8 @@
 ---
 import { getCollection } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
+import BrandLogo from "../../components/BrandLogo.astro";
+import { SITE_URL } from "../../consts";
 
 const base = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
@@ -8,16 +10,37 @@ const base = import.meta.env.BASE_URL.endsWith("/")
 const posts = (await getCollection("blogs", ({ data }) => !data.draft)).sort(
   (first, second) => second.data.pubDate.valueOf() - first.data.pubDate.valueOf(),
 );
+const blogStructuredData = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "Blog",
+  name: "Field Notes by Sumit Kumar",
+  description: "Articles on DevOps, Kubernetes, cloud infrastructure, and observability.",
+  url: new URL(`${base}blogs/`, SITE_URL).href,
+  author: {
+    "@type": "Person",
+    name: "Sumit Kumar",
+    url: SITE_URL,
+  },
+  blogPost: posts.map((post) => ({
+    "@type": "BlogPosting",
+    headline: post.data.title,
+    description: post.data.description,
+    datePublished: post.data.pubDate.toISOString(),
+    url: new URL(`${base}blogs/${post.slug}/`, SITE_URL).href,
+  })),
+}).replaceAll("<", "\\u003c");
 ---
 
 <SiteLayout
   title="Blogs | Sumit Kumar"
   description="Articles and notes on DevOps, Kubernetes, cloud infrastructure, and observability by Sumit Kumar."
+  keywords={["DevOps blog", "Kubernetes", "Cloud infrastructure", "Observability", "Sumit Kumar"]}
 >
+  <script type="application/ld+json" set:html={blogStructuredData} />
   <main class="page">
     <article class="sheet">
       <nav class="topnav" aria-label="Primary navigation">
-        <a class="brand" href={base}>Sumit Kumar</a>
+        <BrandLogo href={base} />
         <div class="navlinks">
           <a class="active" href={`${base}blogs/`}>Blogs</a>
           <a href={`${base}#experience`}>Experience</a>
@@ -28,7 +51,7 @@ const posts = (await getCollection("blogs", ({ data }) => !data.draft)).sort(
 
       <header class="blog-heading">
         <p class="subname">WRITING / FIELD NOTES</p>
-        <h1>Blogs</h1>
+        <h1>Field notes<span>.</span></h1>
         <p>Notes on DevOps, Kubernetes, cloud infrastructure, and reliability.</p>
       </header>
 
@@ -44,11 +67,15 @@ const posts = (await getCollection("blogs", ({ data }) => !data.draft)).sort(
                     day: "numeric",
                   })}
                 </time>
+                <span aria-hidden="true"> · </span>
+                <span>{Math.max(1, Math.ceil(post.body.split(/\s+/).length / 220))} min read</span>
               </p>
               <h2><a href={`${base}blogs/${post.slug}/`}>{post.data.title}</a></h2>
               <p class="blog-description">{post.data.description}</p>
               {post.data.tags.length > 0 && (
-                <p class="blog-tags">{post.data.tags.join(" / ")}</p>
+                <p class="blog-tags">
+                  {post.data.tags.map((tag) => <span>{tag}</span>)}
+                </p>
               )}
               <a
                 class="blog-read-more"
