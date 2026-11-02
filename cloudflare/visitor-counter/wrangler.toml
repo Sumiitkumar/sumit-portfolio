@@ -1,0 +1,12 @@
+name = "sumit-portfolio-visitor-counter"
+main = "src/index.js"
+compatibility_date = "2026-10-01"
+
+[[d1_databases]]
+binding = "DB"
+database_name = "sumit-portfolio-visitors"
+database_id = "REPLACE_WITH_YOUR_D1_DATABASE_ID"
+migrations_dir = "migrations"
+
+[vars]
+ALLOWED_ORIGINS = "https://sumit.cloud,https://www.sumit.cloud,http://localhost:4321,http://127.0.0.1:4321"

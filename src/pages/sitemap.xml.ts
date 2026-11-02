@@ -4,14 +4,25 @@ import { SITE_URL } from "../consts";
 
 export const GET: APIRoute = async () => {
   const posts = await getCollection("blogs", ({ data }) => !data.draft);
-  const paths = [
-    "/",
-    "/blogs/",
-    "/privacy-policy/",
-    ...posts.map((post) => `/blogs/${post.slug}/`),
+  const entries = [
+    { path: "/", lastModified: undefined },
+    { path: "/blogs/", lastModified: undefined },
+    { path: "/privacy-policy/", lastModified: undefined },
+    ...posts.map((post) => ({
+      path: `/blogs/${post.slug}/`,
+      lastModified: post.data.updatedDate ?? post.data.pubDate,
+    })),
   ];
-  const urls = paths
-    .map((path) => `  <url><loc>${new URL(path, SITE_URL).href}</loc></url>`)
+  const escapeXml = (value: string) =>
+    value.replaceAll("&", "&amp;").replaceAll("<", "&lt;").replaceAll(">", "&gt;");
+  const urls = entries
+    .map(({ path, lastModified }) => {
+      const location = escapeXml(new URL(path, SITE_URL).href);
+      const modified = lastModified
+        ? `<lastmod>${lastModified.toISOString().slice(0, 10)}</lastmod>`
+        : "";
+      return `  <url><loc>${location}</loc>${modified}</url>`;
+    })
     .join("\n");
 
   return new Response(

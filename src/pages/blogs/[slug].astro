@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import { getImage } from "astro:assets";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import BrandLogo from "../../components/BrandLogo.astro";
+import ThemeToggle from "../../components/ThemeToggle.astro";
 import portrait from "../../../assets/WhatsApp Image 2025-09-10 at 3.46.09 PM.jpeg";
 import { SITE_URL } from "../../consts";
 
@@ -13,41 +14,69 @@ const base = import.meta.env.BASE_URL.endsWith("/")
 export async function getStaticPaths() {
   const posts = await getCollection("blogs", ({ data }) => !data.draft);
 
-  return posts.map((post) => ({
-    params: { slug: post.slug },
-    props: { post },
-  }));
+  return posts.map((post) => {
+    const relatedPosts = posts
+      .filter((candidate) => candidate.slug !== post.slug)
+      .map((candidate) => ({
+        post: candidate,
+        sharedTags: candidate.data.tags.filter((tag) => post.data.tags.includes(tag)).length,
+      }))
+      .filter(({ sharedTags }) => sharedTags > 0)
+      .sort((first, second) => second.sharedTags - first.sharedTags)
+      .slice(0, 3)
+      .map(({ post: candidate }) => candidate);
+
+    return {
+      params: { slug: post.slug },
+      props: { post, relatedPosts },
+    };
+  });
 }
 
-const { post } = Astro.props;
+const { post, relatedPosts } = Astro.props;
 const { Content } = await post.render();
+const modifiedDate = post.data.updatedDate ?? post.data.pubDate;
+if (post.data.coverImage && !post.data.coverImageAlt) {
+  throw new Error(`Blog post "${post.slug}" defines coverImage without coverImageAlt.`);
+}
 const socialImage = await getImage({
-  src: portrait,
+  src: post.data.coverImage ?? portrait,
   width: 1200,
   height: 630,
   fit: "cover",
   position: "attention",
   format: "jpeg",
 });
+const socialImageUrl = new URL(socialImage.src, SITE_URL).href;
+const socialImageAlt = post.data.coverImage
+  ? post.data.coverImageAlt ?? post.data.title
+  : "Sumit Kumar, DevOps Engineer";
 const articleStructuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   headline: post.data.title,
   description: post.data.description,
   datePublished: post.data.pubDate.toISOString(),
-  dateModified: post.data.pubDate.toISOString(),
+  dateModified: modifiedDate.toISOString(),
   inLanguage: "en",
   keywords: post.data.tags,
-  articleSection: post.data.tags[0],
+  articleSection: [post.data.category, ...post.data.tags].filter(Boolean),
+  wordCount: post.body.trim().split(/\s+/).length,
   image: new URL(socialImage.src, SITE_URL).href,
   author: {
     "@type": "Person",
-    name: "Sumit Kumar",
+    "@id": `${SITE_URL}#person`,
+    name: post.data.author,
     url: SITE_URL,
+    sameAs: [
+      "https://github.com/sumiitkumar",
+      "https://www.linkedin.com/in/sumiitkumar",
+    ],
   },
   publisher: {
     "@type": "Person",
-    name: "Sumit Kumar",
+    "@id": `${SITE_URL}#person`,
+    name: post.data.author,
     url: SITE_URL,
   },
   mainEntityOfPage: {
@@ -67,16 +96,20 @@ const breadcrumbStructuredData = JSON.stringify({
 ---
 
 <SiteLayout
-  title={`${post.data.title} | Sumit Kumar`}
+  title={post.data.seoTitle ?? `${post.data.title} | ${post.data.author}`}
   description={post.data.description}
+  author={post.data.author}
+  socialImageUrl={socialImageUrl}
+  socialImageAlt={socialImageAlt}
   type="article"
   keywords={post.data.tags}
   publishedDate={post.data.pubDate}
+  modifiedDate={modifiedDate}
 >
   <script type="application/ld+json" set:html={articleStructuredData} />
   <script type="application/ld+json" set:html={breadcrumbStructuredData} />
   <main class="page">
-    <article class="sheet">
+    <article class="sheet blog-article-sheet">
       <nav class="topnav" aria-label="Primary navigation">
         <BrandLogo href={base} />
         <div class="navlinks">
@@ -85,6 +118,7 @@ const breadcrumbStructuredData = JSON.stringify({
           <a href={`${base}#skills`}>Skills</a>
           <a href={`${base}#about`}>About</a>
         </div>
+        <ThemeToggle />
       </nav>
 
       <article class="blog-post">
@@ -107,6 +141,19 @@ const breadcrumbStructuredData = JSON.stringify({
         <div class="blog-content">
           <Content />
         </div>
+        {relatedPosts.length > 0 && (
+          <aside class="related-posts" aria-labelledby="related-posts-title">
+            <h2 id="related-posts-title">Related articles</h2>
+            <ul>
+              {relatedPosts.map((relatedPost) => (
+                <li>
+                  <a href={`${base}blogs/${relatedPost.slug}/`}>{relatedPost.data.title}</a>
+                  <p>{relatedPost.data.description}</p>
+                </li>
+              ))}
+            </ul>
+          </aside>
+        )}
       </article>
     </article>
   </main>

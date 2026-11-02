@@ -1,7 +1,11 @@
 ---
 title: "Kubernetes DNS Troubleshooting: CoreDNS, Services, and Fixes"
+seoTitle: "Kubernetes DNS Troubleshooting: CoreDNS and Pods"
 description: "A practical Kubernetes DNS troubleshooting guide with kubectl, nslookup, CoreDNS logs, Services, EndpointSlices, and NetworkPolicy examples."
 pubDate: 2026-10-19
+updatedDate: 2026-11-02
+author: Sumit Kumar
+category: Kubernetes Troubleshooting
 tags:
   - Kubernetes
   - DNS
@@ -13,6 +17,19 @@ draft: false
 A Kubernetes application can be healthy and still fail because it cannot find another Service. Symptoms often look like application errors: `no such host`, `NXDOMAIN`, DNS timeouts, or a connection timeout after a name resolves.
 
 This guide walks through a repeatable way to troubleshoot Kubernetes DNS. It starts inside the affected Pod, follows the request to CoreDNS, and then checks Service records, endpoints, and network policy. The examples use the common cluster domain `cluster.local`; your cluster may use a different domain.
+
+## Contents
+
+- [How Kubernetes DNS works](#how-kubernetes-dns-works)
+- [1. Reproduce DNS from inside the affected Pod](#1-reproduce-dns-from-inside-the-affected-pod)
+- [2. Check the name, namespace, and Service type](#2-check-the-name-namespace-and-service-type)
+- [3. Separate DNS resolution from application connectivity](#3-separate-dns-resolution-from-application-connectivity)
+- [4. Inspect CoreDNS health and logs](#4-inspect-coredns-health-and-logs)
+- [5. Check NetworkPolicy rules for DNS traffic](#5-check-networkpolicy-rules-for-dns-traffic)
+- [6. Troubleshoot external DNS separately](#6-troubleshoot-external-dns-separately)
+- [Quick symptom guide](#quick-symptom-guide)
+- [A practical troubleshooting checklist](#a-practical-troubleshooting-checklist)
+- [Further reading](#further-reading)
 
 ## How Kubernetes DNS works
 
@@ -34,6 +51,7 @@ If the application image has no DNS tools, start a temporary debug Pod:
 
 ```bash
 kubectl run dns-debug \
+  -n <namespace> \
   --image=registry.k8s.io/e2e-test-images/dnsutils:1.3 \
   --restart=Never \
   --command -- sleep 3600
@@ -42,15 +60,15 @@ kubectl run dns-debug \
 Run a lookup for the Service that is failing:
 
 ```bash
-kubectl exec dns-debug -- nslookup catalog.shop.svc.cluster.local
+kubectl exec -n <namespace> dns-debug -- nslookup catalog.shop.svc.cluster.local
 ```
 
 You can also inspect the resolver configuration and query with `dig`:
 
 ```bash
-kubectl exec dns-debug -- cat /etc/resolv.conf
-kubectl exec dns-debug -- dig catalog.shop.svc.cluster.local
-kubectl exec dns-debug -- dig kubernetes.default.svc.cluster.local
+kubectl exec -n <namespace> dns-debug -- cat /etc/resolv.conf
+kubectl exec -n <namespace> dns-debug -- dig catalog.shop.svc.cluster.local
+kubectl exec -n <namespace> dns-debug -- dig kubernetes.default.svc.cluster.local
 ```
 
 The last lookup is a useful control test. If `kubernetes.default.svc.cluster.local` also fails, investigate cluster DNS or Pod-to-DNS connectivity before focusing on the application Service.
@@ -58,7 +76,7 @@ The last lookup is a useful control test. If `kubernetes.default.svc.cluster.loc
 Remove the temporary Pod when you are done:
 
 ```bash
-kubectl delete pod dns-debug
+kubectl delete pod dns-debug -n <namespace>
 ```
 
 ## 2. Check the name, namespace, and Service type
@@ -73,7 +91,7 @@ kubectl get service catalog -n shop -o yaml
 A common mistake is looking up a short name from the wrong namespace. A Pod in `payments` that queries `catalog` searches `payments` first; it does not automatically search `shop`. Try the namespace-qualified name:
 
 ```bash
-kubectl exec dns-debug -- nslookup catalog.shop
+kubectl exec -n <namespace> dns-debug -- nslookup catalog.shop
 ```
 
 Check whether the Service is a standard ClusterIP Service or a headless Service (`clusterIP: None`). A standard Service normally resolves to its ClusterIP. A headless Service resolves to endpoint addresses, so its answers depend more directly on the backing Pods and readiness settings.
@@ -100,7 +118,7 @@ For a headless Service, missing or unexpected endpoints can also explain missing
 Test the Service port from the debug Pod after resolving the name:
 
 ```bash
-kubectl exec dns-debug -- sh -c 'nc -vz catalog.shop.svc.cluster.local 8080'
+kubectl exec -n <namespace> dns-debug -- sh -c 'nc -vz catalog.shop.svc.cluster.local 8080'
 ```
 
 Replace `8080` with the Service port. If your debug image does not include `nc`, use an approved diagnostic image that does, or test with the application's own client.
@@ -129,7 +147,7 @@ kubectl logs -n kube-system -l k8s-app=kube-dns \
   --all-containers=true --tail=100
 ```
 
-If CoreDNS Pods are restarting or not Ready, inspect their events and resource use:
+If CoreDNS Pods are restarting or not Ready, inspect their events and resource use. `kubectl top` requires the cluster's metrics API to be available:
 
 ```bash
 kubectl describe pods -n kube-system -l k8s-app=kube-dns
