@@ -50,7 +50,7 @@ const base = import.meta.env.BASE_URL.endsWith("/")
       gtag("config", "G-K5CVG3DB2R");
     </script>
   </head>
-  <body>
+  <body class={Astro.url.pathname === "/" ? "home-page" : undefined}>
     <slot />
     <footer class="site-footer">
       <span>© {new Date().getFullYear()} Sumit Kumar</span>
