@@ -2,6 +2,8 @@
 import { getCollection } from "astro:content";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import BrandLogo from "../../components/BrandLogo.astro";
+import BlogEntries from "../../components/BlogEntries.astro";
+import ThemeToggle from "../../components/ThemeToggle.astro";
 import { SITE_URL } from "../../consts";
 
 const base = import.meta.env.BASE_URL.endsWith("/")
@@ -13,20 +15,33 @@ const posts = (await getCollection("blogs", ({ data }) => !data.draft)).sort(
 const blogStructuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Blog",
-  name: "Field Notes by Sumit Kumar",
+  "@id": new URL(`${base}blogs/#blog`, SITE_URL).href,
+  name: "Sumit Kumar Blog",
   description: "Articles on DevOps, Kubernetes, cloud infrastructure, and observability.",
   url: new URL(`${base}blogs/`, SITE_URL).href,
+  inLanguage: "en",
   author: {
     "@type": "Person",
+    "@id": `${SITE_URL}#person`,
     name: "Sumit Kumar",
     url: SITE_URL,
+    sameAs: [
+      "https://github.com/sumiitkumar",
+      "https://www.linkedin.com/in/sumiitkumar",
+    ],
   },
+  publisher: { "@id": `${SITE_URL}#person` },
   blogPost: posts.map((post) => ({
     "@type": "BlogPosting",
+    "@id": new URL(`${base}blogs/${post.slug}/#article`, SITE_URL).href,
     headline: post.data.title,
     description: post.data.description,
     datePublished: post.data.pubDate.toISOString(),
+    dateModified: (post.data.updatedDate ?? post.data.pubDate).toISOString(),
+    articleSection: post.data.category,
+    keywords: post.data.tags,
     url: new URL(`${base}blogs/${post.slug}/`, SITE_URL).href,
+    author: { "@id": `${SITE_URL}#person` },
   })),
 }).replaceAll("<", "\\u003c");
 ---
@@ -47,49 +62,10 @@ const blogStructuredData = JSON.stringify({
           <a href={`${base}#skills`}>Skills</a>
           <a href={`${base}#about`}>About</a>
         </div>
+        <ThemeToggle />
       </nav>
 
-      <header class="blog-heading">
-        <p class="subname">WRITING / FIELD NOTES</p>
-        <h1>Field notes<span>.</span></h1>
-        <p>Notes on DevOps, Kubernetes, cloud infrastructure, and reliability.</p>
-      </header>
-
-      <section class="blog-list" aria-label="Published blog posts">
-        {posts.length > 0 ? (
-          posts.map((post) => (
-            <article class="blog-entry">
-              <p class="blog-date">
-                <time datetime={post.data.pubDate.toISOString()}>
-                  {post.data.pubDate.toLocaleDateString("en", {
-                    year: "numeric",
-                    month: "long",
-                    day: "numeric",
-                  })}
-                </time>
-                <span aria-hidden="true"> · </span>
-                <span>{Math.max(1, Math.ceil(post.body.split(/\s+/).length / 220))} min read</span>
-              </p>
-              <h2><a href={`${base}blogs/${post.slug}/`}>{post.data.title}</a></h2>
-              <p class="blog-description">{post.data.description}</p>
-              {post.data.tags.length > 0 && (
-                <p class="blog-tags">
-                  {post.data.tags.map((tag) => <span>{tag}</span>)}
-                </p>
-              )}
-              <a
-                class="blog-read-more"
-                href={`${base}blogs/${post.slug}/`}
-                aria-label={`Read more: ${post.data.title}`}
-              >
-                Read more <span aria-hidden="true">→</span>
-              </a>
-            </article>
-          ))
-        ) : (
-          <p class="blog-empty">No published posts yet.</p>
-        )}
-      </section>
+      <BlogEntries posts={posts} base={base} />
 
       <p class="blog-back"><a href={base}>← Back to portfolio</a></p>
     </article>

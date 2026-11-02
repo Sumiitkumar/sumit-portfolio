@@ -1,0 +1,15 @@
+---
+import { Moon, Sun } from "@lucide/astro";
+---
+
+<button
+  class="theme-toggle"
+  type="button"
+  aria-label="Switch to dark mode"
+  aria-pressed="false"
+  data-theme-toggle
+>
+  <Moon class="theme-icon theme-icon-moon" size={17} aria-hidden="true" />
+  <Sun class="theme-icon theme-icon-sun" size={17} aria-hidden="true" />
+  <span class="sr-only" data-theme-toggle-label>Switch to dark mode</span>
+</button>

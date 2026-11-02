@@ -1,0 +1,48 @@
+---
+import type { CollectionEntry } from "astro:content";
+
+interface Props {
+  posts: CollectionEntry<"blogs">[];
+  base: string;
+}
+
+const { posts, base } = Astro.props;
+---
+
+<section class="blog-list" aria-label="Published blog posts">
+  {posts.length > 0 ? (
+    posts.map((post) => (
+      <article class="blog-entry">
+        <h2><a href={`${base}blogs/${post.slug}/`}>{post.data.title}</a></h2>
+        <div class="blog-entry-meta">
+          <p class="blog-date">
+            <time datetime={post.data.pubDate.toISOString()}>
+              {post.data.pubDate.toLocaleDateString("en", {
+                year: "numeric",
+                month: "long",
+                day: "numeric",
+              })}
+            </time>
+            <span aria-hidden="true"> · </span>
+            <span>{Math.max(1, Math.ceil(post.body.split(/\s+/).length / 220))} min read</span>
+          </p>
+          {post.data.tags.length > 0 && (
+            <p class="blog-tags">
+              {post.data.tags.map((tag) => <span>{tag}</span>)}
+            </p>
+          )}
+        </div>
+        <p class="blog-description">{post.data.description}</p>
+        <a
+          class="blog-read-more"
+          href={`${base}blogs/${post.slug}/`}
+          aria-label={`Read more: ${post.data.title}`}
+        >
+          Read More...
+        </a>
+      </article>
+    ))
+  ) : (
+    <p class="blog-empty">No published posts yet.</p>
+  )}
+</section>

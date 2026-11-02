@@ -16,6 +16,7 @@ const socialImage = await getImage({
 const personStructuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "Person",
+  "@id": `${SITE_URL}#person`,
   name: "Sumit Kumar",
   url: SITE_URL,
   image: new URL(socialImage.src, SITE_URL).href,

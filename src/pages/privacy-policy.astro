@@ -1,6 +1,7 @@
 ---
 import SiteLayout from "../layouts/SiteLayout.astro";
 import BrandLogo from "../components/BrandLogo.astro";
+import ThemeToggle from "../components/ThemeToggle.astro";
 
 const base = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
@@ -21,13 +22,14 @@ const base = import.meta.env.BASE_URL.endsWith("/")
           <a href={`${base}#skills`}>Skills</a>
           <a href={`${base}#about`}>About</a>
         </div>
+        <ThemeToggle />
       </nav>
 
       <article class="privacy-policy">
         <header class="privacy-heading">
           <p class="subname">WEBSITE INFORMATION</p>
           <h1>Privacy Policy</h1>
-          <p>Last updated: October 22, 2026</p>
+          <p>Last updated: November 2, 2026</p>
         </header>
 
         <p>
@@ -60,6 +62,13 @@ const base = import.meta.env.BASE_URL.endsWith("/")
           <a href="https://tools.google.com/dlpage/gaoptout">Google Analytics opt-out browser add-on</a>.
         </p>
         <p>
+          The portfolio visitor counter stores a random identifier in your
+          browser’s local storage and sends it to Cloudflare, where a
+          SHA-256 hash is retained to avoid counting the same browser more than
+          once. The counter does not identify a person: clearing local storage
+          or using another browser or device may result in another count.
+        </p>
+        <p>
           This site also uses Google AdSense to provide advertising. Google and
           its partners may use cookies or similar technologies to show, measure,
           and personalize ads, including based on your visits to this or other
@@ -83,18 +92,21 @@ const base = import.meta.env.BASE_URL.endsWith("/")
         <h2>Sharing and Third-Party Services</h2>
         <p>
           Information may be processed by service providers that support
-          hosting, analytics, and advertising, including Google. Their handling
-          of information is governed by their own privacy policies and settings.
+          hosting, analytics, and advertising, including Google and Cloudflare.
+          Their handling of information is governed by their own privacy
+          policies and settings.
           This site does not sell personal information.
         </p>
 
         <h2>Data Retention and Your Choices</h2>
         <p>
-          I do not maintain visitor accounts or a separate visitor profile
-          database. Information submitted by email may be retained as needed to
+          I do not maintain visitor accounts or personal visitor profiles. The
+          counter retains hashed random browser identifiers to prevent duplicate
+          counts. Information submitted by email may be retained as needed to
           respond and keep correspondence. Analytics, advertising, and hosting
           providers may retain information according to their own policies and
-          settings. You can control cookies through your browser and use the
+          settings. You can clear the counter identifier through your browser’s
+          site data controls, and control cookies through your browser and the
           Google controls linked above.
         </p>
 
