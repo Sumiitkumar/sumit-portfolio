@@ -65,7 +65,8 @@ a:focus-visible {
   animation: arrive 650ms ease-out both;
 }
 
-.home-page .sheet {
+.home-page .sheet,
+.blog-page .sheet {
   width: 100%;
   max-width: none;
   padding-inline: clamp(20px, 5vw, 88px);
@@ -432,7 +433,8 @@ h2 {
   font-size: 11px;
 }
 
-.home-page .site-footer {
+.home-page .site-footer,
+.blog-page .site-footer {
   width: calc(100% - 40px);
 }
 
@@ -497,7 +499,8 @@ h2 {
     margin-top: -18px;
   }
 
-  .home-page .site-footer {
+  .home-page .site-footer,
+  .blog-page .site-footer {
     width: calc(100% - 24px);
   }
 
