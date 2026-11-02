@@ -1,6 +1,9 @@
 ---
 import { getCollection } from "astro:content";
+import { getImage } from "astro:assets";
 import SiteLayout from "../../layouts/SiteLayout.astro";
+import BrandLogo from "../../components/BrandLogo.astro";
+import portrait from "../../../assets/WhatsApp Image 2025-09-10 at 3.46.09 PM.jpeg";
 import { SITE_URL } from "../../consts";
 
 const base = import.meta.env.BASE_URL.endsWith("/")
@@ -18,17 +21,48 @@ export async function getStaticPaths() {
 
 const { post } = Astro.props;
 const { Content } = await post.render();
+const socialImage = await getImage({
+  src: portrait,
+  width: 1200,
+  height: 630,
+  fit: "cover",
+  position: "attention",
+  format: "jpeg",
+});
 const articleStructuredData = JSON.stringify({
   "@context": "https://schema.org",
   "@type": "BlogPosting",
   headline: post.data.title,
   description: post.data.description,
   datePublished: post.data.pubDate.toISOString(),
+  dateModified: post.data.pubDate.toISOString(),
+  inLanguage: "en",
+  keywords: post.data.tags,
+  articleSection: post.data.tags[0],
+  image: new URL(socialImage.src, SITE_URL).href,
   author: {
     "@type": "Person",
     name: "Sumit Kumar",
+    url: SITE_URL,
   },
-  mainEntityOfPage: new URL(Astro.url.pathname, SITE_URL).href,
+  publisher: {
+    "@type": "Person",
+    name: "Sumit Kumar",
+    url: SITE_URL,
+  },
+  mainEntityOfPage: {
+    "@type": "WebPage",
+    "@id": new URL(Astro.url.pathname, SITE_URL).href,
+  },
+}).replaceAll("<", "\\u003c");
+const breadcrumbStructuredData = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  itemListElement: [
+    { "@type": "ListItem", position: 1, name: "Home", item: SITE_URL },
+    { "@type": "ListItem", position: 2, name: "Blogs", item: new URL(`${base}blogs/`, SITE_URL).href },
+    { "@type": "ListItem", position: 3, name: post.data.title, item: new URL(Astro.url.pathname, SITE_URL).href },
+  ],
 }).replaceAll("<", "\\u003c");
 ---
 
@@ -36,12 +70,15 @@ const articleStructuredData = JSON.stringify({
   title={`${post.data.title} | Sumit Kumar`}
   description={post.data.description}
   type="article"
+  keywords={post.data.tags}
+  publishedDate={post.data.pubDate}
 >
   <script type="application/ld+json" set:html={articleStructuredData} />
+  <script type="application/ld+json" set:html={breadcrumbStructuredData} />
   <main class="page">
     <article class="sheet">
       <nav class="topnav" aria-label="Primary navigation">
-        <a class="brand" href={base}>Sumit Kumar</a>
+        <BrandLogo href={base} />
         <div class="navlinks">
           <a class="active" href={`${base}blogs/`}>Blogs</a>
           <a href={`${base}#experience`}>Experience</a>
@@ -61,6 +98,8 @@ const articleStructuredData = JSON.stringify({
                 day: "numeric",
               })}
             </time>
+            <span aria-hidden="true"> · </span>
+            <span>{Math.max(1, Math.ceil(post.body.split(/\s+/).length / 220))} min read</span>
           </p>
           <h1>{post.data.title}</h1>
           <p class="blog-description">{post.data.description}</p>

@@ -1,0 +1,25 @@
+---
+import { Image } from "astro:assets";
+import portrait from "../../assets/WhatsApp Image 2025-09-10 at 3.46.09 PM.jpeg";
+
+interface Props {
+  href: string;
+}
+
+const { href } = Astro.props;
+---
+
+<a class="brand-logo" href={href} aria-label="Sumit Kumar, home">
+  <Image
+    class="brand-photo"
+    src={portrait}
+    alt=""
+    width={88}
+    height={88}
+    fit="cover"
+    position="attention"
+    format="webp"
+    loading="eager"
+  />
+  <span class="brand-name">Sumit Kumar<small>DEVOPS ENGINEER</small></span>
+</a>
