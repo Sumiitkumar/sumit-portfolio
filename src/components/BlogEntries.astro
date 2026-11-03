@@ -15,15 +15,7 @@ const { posts, base } = Astro.props;
       <article class="blog-entry">
         <h2><a href={`${base}blogs/${post.slug}/`}>{post.data.title}</a></h2>
         <div class="blog-entry-meta">
-          <p class="blog-date">
-            <time datetime={post.data.pubDate.toISOString()}>
-              {post.data.pubDate.toLocaleDateString("en", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </time>
-            <span aria-hidden="true"> · </span>
+          <p class="blog-reading-time">
             <span>{Math.max(1, Math.ceil(post.body.split(/\s+/).length / 220))} min read</span>
           </p>
           {post.data.tags.length > 0 && (
