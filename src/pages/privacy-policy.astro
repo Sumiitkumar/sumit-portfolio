@@ -15,12 +15,15 @@ const base = import.meta.env.BASE_URL.endsWith("/")
   <main class="page">
     <article class="sheet">
       <nav class="topnav" aria-label="Primary navigation">
-        <BrandLogo href={base} />
+        <BrandLogo href={`${base}#home`} />
         <div class="navlinks">
-          <a href={`${base}blogs/`}>Blogs</a>
+          <a href={`${base}#home`}>Home</a>
+          <a href={`${base}#about`}>About</a>
+          <a href={`${base}#work`}>Projects</a>
           <a href={`${base}#experience`}>Experience</a>
           <a href={`${base}#skills`}>Skills</a>
-          <a href={`${base}#about`}>About</a>
+          <a href={`${base}blogs/`}>Blogs</a>
+          <a href={`${base}#contact`}>Contact</a>
         </div>
         <ThemeToggle />
       </nav>
@@ -62,13 +65,6 @@ const base = import.meta.env.BASE_URL.endsWith("/")
           <a href="https://tools.google.com/dlpage/gaoptout">Google Analytics opt-out browser add-on</a>.
         </p>
         <p>
-          The portfolio visitor counter stores a random identifier in your
-          browser’s local storage and sends it to Cloudflare, where a
-          SHA-256 hash is retained to avoid counting the same browser more than
-          once. The counter does not identify a person: clearing local storage
-          or using another browser or device may result in another count.
-        </p>
-        <p>
           This site also uses Google AdSense to provide advertising. Google and
           its partners may use cookies or similar technologies to show, measure,
           and personalize ads, including based on your visits to this or other
@@ -92,7 +88,7 @@ const base = import.meta.env.BASE_URL.endsWith("/")
         <h2>Sharing and Third-Party Services</h2>
         <p>
           Information may be processed by service providers that support
-          hosting, analytics, and advertising, including Google and Cloudflare.
+          hosting, analytics, and advertising, including Google.
           Their handling of information is governed by their own privacy
           policies and settings.
           This site does not sell personal information.
@@ -100,14 +96,12 @@ const base = import.meta.env.BASE_URL.endsWith("/")
 
         <h2>Data Retention and Your Choices</h2>
         <p>
-          I do not maintain visitor accounts or personal visitor profiles. The
-          counter retains hashed random browser identifiers to prevent duplicate
-          counts. Information submitted by email may be retained as needed to
-          respond and keep correspondence. Analytics, advertising, and hosting
+          I do not maintain visitor accounts or personal visitor profiles.
+          Information submitted by email may be retained as needed to respond
+          and keep correspondence. Analytics, advertising, and hosting
           providers may retain information according to their own policies and
-          settings. You can clear the counter identifier through your browser’s
-          site data controls, and control cookies through your browser and the
-          Google controls linked above.
+          settings. You can control cookies through your browser and the Google
+          controls linked above.
         </p>
 
         <h2>Children’s Privacy</h2>

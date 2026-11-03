@@ -1,0 +1,60 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import BrandLogo from "../../../components/BrandLogo.astro";
+import BlogEntries from "../../../components/BlogEntries.astro";
+import ThemeToggle from "../../../components/ThemeToggle.astro";
+import { slugifyBlogTag } from "../../../utils/blog-tags";
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blogs", ({ data }) => !data.draft);
+  const tags = new Map<string, string>();
+
+  posts.forEach((post) => {
+    post.data.tags.forEach((tag) => tags.set(slugifyBlogTag(tag), tag));
+  });
+
+  return [...tags].map(([slug, tag]) => ({
+    params: { tag: slug },
+    props: { tag, posts: posts.filter((post) => post.data.tags.includes(tag)) },
+  }));
+}
+
+const { tag, posts } = Astro.props;
+---
+
+<SiteLayout
+  title={`${tag} Articles | Sumit Kumar`}
+  description={`Articles tagged ${tag} on Kubernetes, cloud infrastructure, and DevOps by Sumit Kumar.`}
+  keywords={[tag, "DevOps", "Kubernetes", "Sumit Kumar"]}
+>
+  <main class="page">
+    <article class="sheet">
+      <nav class="topnav" aria-label="Primary navigation">
+        <BrandLogo href={`${base}#home`} />
+        <div class="navlinks">
+          <a href={`${base}#home`}>Home</a>
+          <a href={`${base}#about`}>About</a>
+          <a href={`${base}#work`}>Projects</a>
+          <a href={`${base}#experience`}>Experience</a>
+          <a href={`${base}#skills`}>Skills</a>
+          <a class="active" href={`${base}blogs/`}>Blogs</a>
+          <a href={`${base}#contact`}>Contact</a>
+        </div>
+        <ThemeToggle />
+      </nav>
+
+      <header class="blog-heading">
+        <p class="subname">TOPIC ARCHIVE</p>
+        <h1>{tag}</h1>
+        <p>Articles and practical notes filed under {tag}.</p>
+      </header>
+      <BlogEntries posts={posts} base={base} />
+      <p class="blog-back"><a href={`${base}blogs/`}>← All blogs</a></p>
+    </article>
+  </main>
+</SiteLayout>

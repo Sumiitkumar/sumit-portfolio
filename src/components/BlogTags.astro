@@ -1,0 +1,14 @@
+---
+import { slugifyBlogTag } from "../utils/blog-tags";
+
+interface Props {
+  tags: string[];
+  base: string;
+}
+
+const { tags, base } = Astro.props;
+---
+
+{tags.map((tag) => (
+  <a href={`${base}blogs/tags/${slugifyBlogTag(tag)}/`}>{tag}</a>
+))}
