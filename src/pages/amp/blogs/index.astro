@@ -1,0 +1,34 @@
+---
+import { getCollection } from "astro:content";
+import AmpLayout from "../../../layouts/AmpLayout.astro";
+import { SITE_URL } from "../../../consts";
+
+const posts = (await getCollection("blogs", ({ data }) => !data.draft)).sort(
+  (first, second) => second.data.pubDate.valueOf() - first.data.pubDate.valueOf(),
+);
+const canonicalUrl = new URL("/blogs/", SITE_URL).href;
+---
+
+<AmpLayout title="Blogs | Sumit Kumar" description="Articles and notes on DevOps, Kubernetes, cloud infrastructure, and observability by Sumit Kumar." canonicalUrl={canonicalUrl}>
+  <nav class="topbar" aria-label="Primary navigation">
+    <a href="/" class="brand">Sumit Kumar</a>
+    <div class="nav">
+      <a href="/">Home</a>
+      <a href="/blogs/">Blogs</a>
+      <a href="/privacy-policy/">Privacy Policy</a>
+    </div>
+  </nav>
+
+  <section class="section">
+    <p class="eyebrow">Notes and writing</p>
+    <h1>Blogs</h1>
+    <div class="list">
+      {posts.map((post) => (
+        <article class="article">
+          <h3><a href={`/blogs/${post.slug}/`}>{post.data.title}</a></h3>
+          <p>{post.data.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+</AmpLayout>

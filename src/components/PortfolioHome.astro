@@ -9,8 +9,6 @@ import {
   Server,
   Workflow,
 } from "@lucide/astro";
-import { Image } from "astro:assets";
-import profilePhoto from "../../assets/sumit-profile.png";
 import BrandLogo from "./BrandLogo.astro";
 import BlogTags from "./BlogTags.astro";
 import ThemeToggle from "./ThemeToggle.astro";
@@ -47,17 +45,6 @@ const skills = [
   <nav class="site-nav" aria-label="Primary navigation">
     <BrandLogo href="#home" />
     <ThemeToggle />
-    <div class="sidebar-profile">
-      <Image
-        src={profilePhoto}
-        alt="Sumit Kumar"
-        width={160}
-        height={160}
-        fit="cover"
-        position="top"
-        loading="eager"
-      />
-    </div>
     <div class="nav-links">
       <a href="#home" data-section-link aria-current="page">Home</a>
       <a href="#about" data-section-link>About</a>

@@ -1181,7 +1181,7 @@ img { display: block; max-width: 100%; }
     font-size: 13px;
     font-weight: 600;
   }
-  .contact-links a:hover { color: #268bd2; }
+  .contact-links a:hover { color: #176b9f; }
 
   @media (min-width: 981px) {
     .nav-links a:hover { font-size: 15px; }
@@ -1244,11 +1244,11 @@ img { display: block; max-width: 100%; }
   --ink: #313131;
   --muted: #555e64;
   --line: #e8e8e8;
-  --green: #268bd2;
+  --green: #176b9f;
   --green-deep: #176b9f;
   --sage: #edf5fa;
   --sage-light: #f5f9fc;
-  --terracotta: #268bd2;
+  --terracotta: #176b9f;
   --mono: "DM Mono", "SFMono-Regular", Consolas, monospace;
   --sans: "Helvetica Neue", Helvetica, Arial, sans-serif;
   --serif: "Helvetica Neue", Helvetica, Arial, sans-serif;
@@ -1447,7 +1447,7 @@ body {
   transition: background-color 160ms ease, border-color 160ms ease, color 160ms ease;
 }
 .theme-toggle:hover { border-color: #b7d8ed; color: #176b9f; }
-.theme-toggle:focus-visible { outline: 2px solid #268bd2; outline-offset: 3px; }
+.theme-toggle:focus-visible { outline: 2px solid #176b9f; outline-offset: 3px; }
 .theme-icon-sun { display: none; }
 .topnav .theme-toggle { margin-left: 10px; }
 

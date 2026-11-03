@@ -28,6 +28,11 @@ const {
   modifiedDate,
 } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, SITE_URL).href;
+const ampURL = Astro.url.pathname === "/"
+  ? new URL("/amp/", SITE_URL).href
+  : Astro.url.pathname.startsWith("/blogs/")
+    ? new URL(`/amp${Astro.url.pathname}`, SITE_URL).href
+    : undefined;
 const icon = await getImage({
   src: portrait,
   width: 144,
@@ -56,31 +61,26 @@ const base = import.meta.env.BASE_URL.endsWith("/")
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <style is:inline set:html={styles}></style>
-    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>
-    <script is:inline>
-      window.dataLayer = window.dataLayer || [];
-      function gtag() { window.dataLayer.push(arguments); }
-      gtag("js", new Date());
-      gtag("config", "G-K5CVG3DB2R");
-    </script>
-    <script
-      async
-      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2603058492307351"
-      crossorigin="anonymous"
-    ></script>
     <meta name="description" content={description} />
     <meta name="author" content={author} />
     {keywords.length > 0 && <meta name="keywords" content={keywords.join(", ")} />}
     <meta name="theme-color" content="#f7f5ef" />
     <link rel="canonical" href={canonicalURL} />
+    {ampURL && <link rel="amphtml" href={ampURL} />}
     <link rel="icon" type="image/webp" href={icon.src} />
     <link rel="apple-touch-icon" href={icon.src} />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="anonymous" />
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
       rel="stylesheet"
+      media="print"
+      onload="this.media='all'"
     />
+    <noscript>
+      <link
+        href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"
+        rel="stylesheet"
+      />
+    </noscript>
     <meta property="og:type" content={type} />
     <meta property="og:site_name" content="Sumit Kumar" />
     <meta property="og:title" content={title} />
@@ -123,6 +123,65 @@ const base = import.meta.env.BASE_URL.endsWith("/")
     }
   >
     <slot />
+    <script is:inline data-measurement-id={GA_MEASUREMENT_ID}>
+      (() => {
+        const measurementId = document.currentScript.dataset.measurementId;
+        const dataLayer = window.dataLayer = window.dataLayer || [];
+        window.gtag = function () { dataLayer.push(arguments); };
+        window.gtag("js", new Date());
+        window.gtag("config", measurementId);
+
+        const appendScript = (src, crossOrigin) => {
+          const script = document.createElement("script");
+          script.async = true;
+          if (crossOrigin) script.crossOrigin = crossOrigin;
+          script.src = src;
+          document.head.append(script);
+        };
+
+        const deferUntilInteraction = (callback, timeout) => {
+          let loaded = false;
+          const load = () => {
+            if (loaded) return;
+            loaded = true;
+            events.forEach((event) => {
+              window.removeEventListener(event, load);
+            });
+            callback();
+          };
+          const events = ["pointerdown", "keydown", "touchstart", "wheel"];
+          events.forEach((event) => {
+            window.addEventListener(event, load, { once: true, passive: true });
+          });
+          window.setTimeout(load, timeout);
+        };
+
+        const loadAnalytics = () => {
+          appendScript(`https://www.googletagmanager.com/gtag/js?id=${measurementId}`);
+        };
+        const loadAds = () => {
+          appendScript(
+            "https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2603058492307351",
+            "anonymous",
+          );
+        };
+
+        const loadThirdPartyScripts = () => {
+          deferUntilInteraction(loadAnalytics, 20000);
+          deferUntilInteraction(loadAds, 30000);
+        };
+
+        const startDeferredScripts = () => {
+          if (document.readyState === "complete") {
+            loadThirdPartyScripts();
+          } else {
+            window.addEventListener("load", loadThirdPartyScripts, { once: true });
+          }
+        };
+
+        startDeferredScripts();
+      })();
+    </script>
     <script src="/theme-toggle.js" defer is:inline></script>
     <footer class="site-footer">
       <span>© {new Date().getFullYear()} Sumit Kumar</span>

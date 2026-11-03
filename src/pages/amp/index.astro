@@ -1,0 +1,59 @@
+---
+import { getCollection } from "astro:content";
+import AmpLayout from "../../layouts/AmpLayout.astro";
+import portrait from "../../../assets/WhatsApp Image 2025-09-10 at 3.46.09 PM.jpeg";
+import { SITE_URL } from "../../consts";
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+const posts = (await getCollection("blogs", ({ data }) => !data.draft)).sort(
+  (first, second) => second.data.pubDate.valueOf() - first.data.pubDate.valueOf(),
+).slice(0, 4);
+const canonicalUrl = new URL("/", SITE_URL).href;
+---
+
+<AmpLayout title="Sumit Kumar | DevOps Engineer" description="Sumit Kumar is a DevOps Engineer building reliable cloud-native infrastructure, CI/CD platforms, and observability systems." canonicalUrl={canonicalUrl} imageUrl={new URL(portrait.src, SITE_URL).href}>
+  <nav class="topbar" aria-label="Primary navigation">
+    <a href="/" class="brand">Sumit Kumar</a>
+    <div class="nav">
+      <a href="/">Home</a>
+      <a href="/blogs/">Blogs</a>
+      <a href="/privacy-policy/">Privacy Policy</a>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div>
+      <p class="eyebrow">DevOps Engineer</p>
+      <h1>Building reliable platforms for cloud-native workloads.</h1>
+      <p class="lede">
+        I design and maintain Kubernetes, cloud infrastructure, CI/CD automation, and observability systems that help teams ship with less friction and more resilience.
+      </p>
+      <div class="meta">
+        <span class="pill">Kubernetes</span>
+        <span class="pill">Cloud</span>
+        <span class="pill">Platform Engineering</span>
+      </div>
+    </div>
+    <div class="card">
+      <amp-img src={portrait.src} alt="Sumit Kumar" width="640" height="640" layout="responsive"></amp-img>
+    </div>
+  </section>
+
+  <section class="section">
+    <h2>Latest writing</h2>
+    <div class="list">
+      {posts.map((post) => (
+        <article class="article">
+          <h3><a href={`/blogs/${post.slug}/`}>{post.data.title}</a></h3>
+          <p>{post.data.description}</p>
+        </article>
+      ))}
+    </div>
+  </section>
+
+  <footer class="footer">
+    © 2026 Sumit Kumar
+  </footer>
+</AmpLayout>

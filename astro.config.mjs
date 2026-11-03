@@ -5,4 +5,7 @@ export default defineConfig({
   site: SITE_URL,
   base: "/",
   output: "static",
+  devToolbar: {
+    enabled: false,
+  },
 });

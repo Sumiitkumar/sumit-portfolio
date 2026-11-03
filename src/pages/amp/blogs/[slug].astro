@@ -1,0 +1,32 @@
+---
+import { getCollection } from "astro:content";
+import AmpLayout from "../../../layouts/AmpLayout.astro";
+import { SITE_URL } from "../../../consts";
+
+export async function getStaticPaths() {
+  const posts = await getCollection("blogs", ({ data }) => !data.draft);
+  return posts.map((post) => ({ params: { slug: post.slug }, props: { post } }));
+}
+
+const { post } = Astro.props;
+const { Content } = await post.render();
+const canonicalUrl = new URL(`/blogs/${post.slug}/`, SITE_URL).href;
+---
+
+<AmpLayout title={post.data.seoTitle ?? `${post.data.title} | ${post.data.author}`} description={post.data.description} canonicalUrl={canonicalUrl}>
+  <nav class="topbar" aria-label="Primary navigation">
+    <a href="/" class="brand">Sumit Kumar</a>
+    <div class="nav">
+      <a href="/">Home</a>
+      <a href="/blogs/">Blogs</a>
+      <a href="/privacy-policy/">Privacy Policy</a>
+    </div>
+  </nav>
+
+  <article class="blog-body">
+    <p class="eyebrow">Article</p>
+    <h1>{post.data.title}</h1>
+    <p>{post.data.description}</p>
+    <Content />
+  </article>
+</AmpLayout>
