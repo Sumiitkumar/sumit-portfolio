@@ -124,15 +124,7 @@ const breadcrumbStructuredData = JSON.stringify({
       <article class="blog-post">
         <p class="blog-back"><a href={`${base}blogs/`}>← All blogs</a></p>
         <header class="blog-post-heading">
-          <p class="blog-date">
-            <time datetime={post.data.pubDate.toISOString()}>
-              {post.data.pubDate.toLocaleDateString("en", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-              })}
-            </time>
-            <span aria-hidden="true"> · </span>
+          <p class="blog-reading-time">
             <span>{Math.max(1, Math.ceil(post.body.split(/\s+/).length / 220))} min read</span>
           </p>
           <h1>{post.data.title}</h1>

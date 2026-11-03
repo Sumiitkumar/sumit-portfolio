@@ -829,7 +829,7 @@ img { display: block; max-width: 100%; }
   width: 100%;
   margin-top: 20px;
 }
-.blog-date, .blog-tags {
+.blog-reading-time, .blog-tags {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
@@ -1427,7 +1427,7 @@ html[data-theme="dark"] .project-content > p,
 html[data-theme="dark"] .writing-banner > div > p:last-child,
 html[data-theme="dark"] .blog-heading > p:last-child,
 html[data-theme="dark"] .blog-description,
-html[data-theme="dark"] .blog-date,
+html[data-theme="dark"] .blog-reading-time,
 html[data-theme="dark"] .blog-tags,
 html[data-theme="dark"] .privacy-heading p:last-child,
 html[data-theme="dark"] .privacy-policy p,
