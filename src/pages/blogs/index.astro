@@ -55,16 +55,23 @@ const blogStructuredData = JSON.stringify({
   <main class="page">
     <article class="sheet">
       <nav class="topnav" aria-label="Primary navigation">
-        <BrandLogo href={base} />
+        <BrandLogo href={`${base}#home`} />
         <div class="navlinks">
-          <a class="active" href={`${base}blogs/`}>Blogs</a>
+          <a href={`${base}#home`}>Home</a>
+          <a href={`${base}#about`}>About</a>
+          <a href={`${base}#work`}>Projects</a>
           <a href={`${base}#experience`}>Experience</a>
           <a href={`${base}#skills`}>Skills</a>
-          <a href={`${base}#about`}>About</a>
+          <a class="active" href={`${base}blogs/`}>Blogs</a>
+          <a href={`${base}#contact`}>Contact</a>
         </div>
         <ThemeToggle />
       </nav>
 
+      <header class="blog-heading">
+        <p class="subname">NOTES AND WRITING</p>
+        <h1>Blogs</h1>
+      </header>
       <BlogEntries posts={posts} base={base} />
 
       <p class="blog-back"><a href={base}>← Back to portfolio</a></p>

@@ -45,37 +45,28 @@ const socialImage = await getImage({
   format: "jpeg",
 });
 const resolvedSocialImageURL = socialImageUrl ?? new URL(socialImage.src, SITE_URL).href;
-const analyticsConfig = JSON.stringify({
-  vars: {
-    gtag_id: GA_MEASUREMENT_ID,
-    config: { [GA_MEASUREMENT_ID]: { groups: "default" } },
-  },
-});
 const base = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 ---
 
 <!doctype html>
-<html amp lang="en">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <style amp-boilerplate is:inline>body{-webkit-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-moz-animation:-amp-start 8s steps(1,end) 0s 1 normal both;-ms-animation:-amp-start 8s steps(1,end) 0s 1 normal both;animation:-amp-start 8s steps(1,end) 0s 1 normal both}@-webkit-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-moz-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-ms-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@-o-keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}@keyframes -amp-start{from{visibility:hidden}to{visibility:visible}}</style>
-    <noscript>
-      <style amp-boilerplate is:inline>body{-webkit-animation:none;-moz-animation:none;-ms-animation:none;animation:none}</style>
-    </noscript>
-    <style amp-custom is:inline set:html={styles}></style>
-    <script async src="https://cdn.ampproject.org/v0.js"></script>
+    <style is:inline set:html={styles}></style>
+    <script async src={`https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`}></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { window.dataLayer.push(arguments); }
+      gtag("js", new Date());
+      gtag("config", "G-K5CVG3DB2R");
+    </script>
     <script
       async
-      custom-element="amp-analytics"
-      src="https://cdn.ampproject.org/v0/amp-analytics-0.1.js"
-    ></script>
-    <script
-      async
-      custom-element="amp-auto-ads"
-      src="https://cdn.ampproject.org/v0/amp-auto-ads-0.1.js"
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2603058492307351"
+      crossorigin="anonymous"
     ></script>
     <meta name="description" content={description} />
     <meta name="author" content={author} />
@@ -131,14 +122,7 @@ const base = import.meta.env.BASE_URL.endsWith("/")
           : undefined
     }
   >
-    <amp-auto-ads
-      type="adsense"
-      data-ad-client="ca-pub-2603058492307351"
-    ></amp-auto-ads>
     <slot />
-    <amp-analytics type="gtag" data-credentials="include">
-      <script type="application/json" set:html={analyticsConfig}></script>
-    </amp-analytics>
     <script src="/theme-toggle.js" defer is:inline></script>
     <footer class="site-footer">
       <span>© {new Date().getFullYear()} Sumit Kumar</span>

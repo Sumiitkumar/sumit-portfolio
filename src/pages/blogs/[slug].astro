@@ -3,6 +3,7 @@ import { getCollection } from "astro:content";
 import { getImage } from "astro:assets";
 import SiteLayout from "../../layouts/SiteLayout.astro";
 import BrandLogo from "../../components/BrandLogo.astro";
+import BlogTags from "../../components/BlogTags.astro";
 import ThemeToggle from "../../components/ThemeToggle.astro";
 import portrait from "../../../assets/WhatsApp Image 2025-09-10 at 3.46.09 PM.jpeg";
 import { SITE_URL } from "../../consts";
@@ -111,12 +112,15 @@ const breadcrumbStructuredData = JSON.stringify({
   <main class="page">
     <article class="sheet blog-article-sheet">
       <nav class="topnav" aria-label="Primary navigation">
-        <BrandLogo href={base} />
+        <BrandLogo href={`${base}#home`} />
         <div class="navlinks">
-          <a class="active" href={`${base}blogs/`}>Blogs</a>
+          <a href={`${base}#home`}>Home</a>
+          <a href={`${base}#about`}>About</a>
+          <a href={`${base}#work`}>Projects</a>
           <a href={`${base}#experience`}>Experience</a>
           <a href={`${base}#skills`}>Skills</a>
-          <a href={`${base}#about`}>About</a>
+          <a class="active" href={`${base}blogs/`}>Blogs</a>
+          <a href={`${base}#contact`}>Contact</a>
         </div>
         <ThemeToggle />
       </nav>
@@ -129,6 +133,11 @@ const breadcrumbStructuredData = JSON.stringify({
           </p>
           <h1>{post.data.title}</h1>
           <p class="blog-description">{post.data.description}</p>
+          {post.data.tags.length > 0 && (
+            <p class="blog-tags article-tags">
+              <BlogTags tags={post.data.tags} base={base} />
+            </p>
+          )}
         </header>
         <div class="blog-content">
           <Content />

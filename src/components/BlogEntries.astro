@@ -1,5 +1,6 @@
 ---
 import type { CollectionEntry } from "astro:content";
+import BlogTags from "./BlogTags.astro";
 
 interface Props {
   posts: CollectionEntry<"blogs">[];
@@ -20,7 +21,7 @@ const { posts, base } = Astro.props;
           </p>
           {post.data.tags.length > 0 && (
             <p class="blog-tags">
-              {post.data.tags.map((tag) => <span>{tag}</span>)}
+              <BlogTags tags={post.data.tags} base={base} />
             </p>
           )}
         </div>
