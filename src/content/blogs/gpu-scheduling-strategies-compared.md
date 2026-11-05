@@ -1,7 +1,7 @@
 ---
-title: "Kubernetes GPU Sharing Compared: Whole GPUs, MIG, Time-Slicing, and HAMi"
-seoTitle: "Kubernetes GPU Scheduling: Whole GPU vs MIG vs Time-Slicing vs HAMi"
-description: "Whole GPUs, MIG, time-slicing, or HAMi? Compare what each option actually gives a Kubernetes workload."
+title: "Whole GPU, MIG, Time-Slicing, or HAMi? Choose a Kubernetes Sharing Model"
+seoTitle: "Kubernetes GPU Sharing: Whole GPU vs MIG vs HAMi"
+description: "Compare whole-GPU allocation, NVIDIA MIG, time-slicing, and HAMi by isolation, workload fit, scheduling behavior, and operating trade-offs."
 pubDate: 2026-11-02
 author: Sumit Kumar
 category: Kubernetes GPU Scheduling

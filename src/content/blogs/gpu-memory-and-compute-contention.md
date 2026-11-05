@@ -1,7 +1,7 @@
 ---
-title: "GPU Memory and Compute Contention in Kubernetes"
-seoTitle: "Kubernetes GPU Sharing: Memory and Compute Contention"
-description: "A shared-GPU Pod can schedule successfully and still run out of device memory or slow down. Here is what to watch."
+title: "Shared Kubernetes GPUs: Why VRAM, Compute, and Latency Still Collide"
+seoTitle: "Kubernetes GPU Sharing: VRAM and Compute Contention"
+description: "Understand why shared GPU workloads can slow down or run out of VRAM after scheduling, and which signals help diagnose contention."
 pubDate: 2026-11-02
 author: Sumit Kumar
 category: GPU Observability

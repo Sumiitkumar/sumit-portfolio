@@ -1,7 +1,7 @@
 ---
-title: "HAMi GPU Sharing on Kubernetes: Setup, Scheduling, and Validation"
+title: "HAMi on Kubernetes: GPU Sharing Setup, Scheduling, and the Checks That Matter"
 seoTitle: "HAMi GPU Sharing on Kubernetes: Setup and Scheduling"
-description: "What to check when introducing HAMi GPU sharing: advertised resources, scheduler and plugin health, and a small test workload."
+description: "Plan a HAMi GPU-sharing rollout by checking version compatibility, advertised resources, scheduler and plugin health, and real workload behavior."
 pubDate: 2026-11-02
 author: Sumit Kumar
 category: Kubernetes GPU Sharing

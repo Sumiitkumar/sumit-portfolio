@@ -1,7 +1,7 @@
 ---
-title: "Kubernetes GPU Topology-Aware Scheduling for Multi-GPU Workloads"
-seoTitle: "Kubernetes GPU Topology-Aware Scheduling for Multi-GPU Jobs"
-description: "Requesting multiple GPUs does not guarantee a good device layout. Here is what to check for multi-GPU and distributed jobs."
+title: "Multi-GPU Kubernetes Jobs: Why Node Placement Is Only Half the Story"
+seoTitle: "Kubernetes Multi-GPU Topology and Scheduling Guide"
+description: "Learn why requesting multiple GPUs does not guarantee a fast device layout, and what to verify for topology-sensitive Kubernetes jobs."
 pubDate: 2026-11-02
 author: Sumit Kumar
 category: Kubernetes GPU Scheduling

@@ -1,7 +1,7 @@
 ---
-title: "How to Troubleshoot Pending GPU Pods in Kubernetes"
-seoTitle: "Kubernetes Pending GPU Pods: Troubleshooting Guide"
-description: "A GPU Pod is Pending? Start with its events, then check resource names, node constraints, and device-plugin health."
+title: "GPU Pod Pending? Trace the Kubernetes Scheduling Failure Step by Step"
+seoTitle: "Kubernetes GPU Pod Pending: Events, Resources, and Fixes"
+description: "Diagnose a Pending GPU Pod by following scheduler events, extended-resource names, node constraints, quotas, and device-plugin health."
 pubDate: 2026-11-02
 author: Sumit Kumar
 category: Kubernetes Troubleshooting

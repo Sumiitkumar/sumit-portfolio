@@ -1,0 +1,90 @@
+---
+import { getCollection } from "astro:content";
+import SiteLayout from "../../../layouts/SiteLayout.astro";
+import BrandLogo from "../../../components/BrandLogo.astro";
+import BlogEntries from "../../../components/BlogEntries.astro";
+import ThemeToggle from "../../../components/ThemeToggle.astro";
+import { SITE_URL } from "../../../consts";
+import { BLOGS_PER_PAGE, getBlogPageCount } from "../../../utils/blog-pagination";
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+
+export async function getStaticPaths() {
+  const posts = (await getCollection("blogs", ({ data }) => !data.draft)).sort(
+    (first, second) => second.data.pubDate.valueOf() - first.data.pubDate.valueOf(),
+  );
+  const totalPages = getBlogPageCount(posts.length);
+
+  return Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => index + 2).map(
+    (page) => ({
+      params: { page: String(page) },
+      props: {
+        posts: posts.slice((page - 1) * BLOGS_PER_PAGE, page * BLOGS_PER_PAGE),
+        totalPosts: posts.length,
+        totalPages,
+      },
+    }),
+  );
+}
+
+const { posts, totalPosts, totalPages } = Astro.props;
+const currentPage = Number(Astro.params.page);
+const pageData = JSON.stringify({
+  "@context": "https://schema.org",
+  "@type": "CollectionPage",
+  name: `DevOps and Kubernetes articles, page ${currentPage}`,
+  url: new URL(`/blogs/page/${currentPage}/`, SITE_URL).href,
+  isPartOf: new URL("/blogs/", SITE_URL).href,
+  mainEntity: {
+    "@type": "ItemList",
+    numberOfItems: posts.length,
+    itemListElement: posts.map((post, index) => ({
+      "@type": "ListItem",
+      position: (currentPage - 1) * BLOGS_PER_PAGE + index + 1,
+      url: new URL(`/blogs/${post.slug}/`, SITE_URL).href,
+      name: post.data.title,
+    })),
+  },
+});
+---
+
+<SiteLayout
+  title={`Kubernetes, DevOps & Cloud Articles | Page ${currentPage} | Sumit Kumar`}
+  description={`More practical articles on Kubernetes, GPU infrastructure, DevOps, and cloud engineering. Page ${currentPage} of the blog archive.`}
+  keywords={["Kubernetes", "GPU infrastructure", "DevOps", "Cloud engineering"]}
+>
+  <script type="application/ld+json" set:html={pageData} />
+  <main class="page">
+    <article class="sheet">
+      <nav class="topnav" aria-label="Primary navigation">
+        <BrandLogo href={`${base}#home`} />
+        <div class="navlinks">
+          <a href={`${base}#home`}>Home</a>
+          <a href={`${base}#about`}>About</a>
+          <a href={`${base}#work`}>Projects</a>
+          <a href={`${base}#experience`}>Experience</a>
+          <a href={`${base}#skills`}>Skills</a>
+          <a class="active" href={`${base}blogs/`}>Blogs</a>
+          <a href={`${base}#contact`}>Contact</a>
+        </div>
+        <ThemeToggle />
+      </nav>
+
+      <header class="blog-heading">
+        <p class="subname">NOTES AND WRITING · PAGE {currentPage}</p>
+        <h1>More articles</h1>
+        <p>Continue exploring practical guides to Kubernetes, GPU infrastructure, and cloud engineering.</p>
+      </header>
+      <BlogEntries
+        posts={posts}
+        base={base}
+        currentPage={currentPage}
+        totalPages={totalPages}
+        totalPosts={totalPosts}
+      />
+      <p class="blog-back"><a href={`${base}blogs/`}>← Back to page 1</a></p>
+    </article>
+  </main>
+</SiteLayout>

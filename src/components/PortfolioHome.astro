@@ -16,6 +16,8 @@ import ThemeToggle from "./ThemeToggle.astro";
 const base = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
+const heroName = Array.from("Sumit Kumar");
+const heroRole = Array.from("DevOps Engineer");
 
 const skills = [
   {
@@ -84,8 +86,18 @@ const skills = [
     <header class="hero">
       <div class="hero-copy">
         <p class="eyebrow">HOME</p>
-        <h1 id="home-title">
-          Sumit Kumar<br /><span>DevOps Engineer</span>
+        <h1 id="home-title" aria-label="Sumit Kumar, DevOps Engineer">
+          <span class="hero-title-line" aria-hidden="true">
+            {heroName.map((letter, index) => (
+              <span class="hero-title-letter" style={`--letter-delay: ${index * 70}ms`}>{letter === " " ? "\u00a0" : letter}</span>
+            ))}
+          </span>
+          <br />
+          <span class="hero-title-line hero-title-role" aria-hidden="true">
+            {heroRole.map((letter, index) => (
+              <span class="hero-title-letter" style={`--letter-delay: ${(index + heroName.length + 5) * 70}ms`}>{letter === " " ? "\u00a0" : letter}</span>
+            ))}
+          </span>
         </h1>
         <p class="hero-summary">
           I build Kubernetes platforms, automate cloud infrastructure, and improve delivery workflows.

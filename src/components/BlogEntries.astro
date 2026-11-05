@@ -1,13 +1,26 @@
 ---
 import type { CollectionEntry } from "astro:content";
 import BlogTags from "./BlogTags.astro";
+import { BLOGS_PER_PAGE } from "../utils/blog-pagination";
 
 interface Props {
   posts: CollectionEntry<"blogs">[];
   base: string;
+  currentPage?: number;
+  totalPages?: number;
+  totalPosts?: number;
 }
 
-const { posts, base } = Astro.props;
+const {
+  posts,
+  base,
+  currentPage = 1,
+  totalPages = 1,
+  totalPosts = posts.length,
+} = Astro.props;
+const firstPostNumber = totalPosts === 0 ? 0 : (currentPage - 1) * BLOGS_PER_PAGE + 1;
+const pageUrl = (page: number) =>
+  page === 1 ? `${base}blogs/` : `${base}blogs/page/${page}/`;
 ---
 
 <section class="blog-list" aria-label="Published blog posts">
@@ -39,3 +52,33 @@ const { posts, base } = Astro.props;
     <p class="blog-empty">No published posts yet.</p>
   )}
 </section>
+
+{totalPages > 1 && (
+  <nav class="blog-pagination" aria-label="Blog pages">
+    <span class="blog-pagination-status">
+      Showing {firstPostNumber}–{Math.min(firstPostNumber + posts.length - 1, totalPosts)} of {totalPosts}
+    </span>
+    <div class="blog-pagination-links">
+      {currentPage > 1 ? (
+        <a class="blog-pagination-direction" href={pageUrl(currentPage - 1)} rel="prev">Previous</a>
+      ) : (
+        <span class="blog-pagination-direction" aria-disabled="true">Previous</span>
+      )}
+      {Array.from({ length: totalPages }, (_, index) => index + 1).map((page) => (
+        <a
+          class="blog-pagination-number"
+          href={pageUrl(page)}
+          aria-current={page === currentPage ? "page" : undefined}
+          aria-label={`Page ${page}`}
+        >
+          {page}
+        </a>
+      ))}
+      {currentPage < totalPages ? (
+        <a class="blog-pagination-direction" href={pageUrl(currentPage + 1)} rel="next">Next</a>
+      ) : (
+        <span class="blog-pagination-direction" aria-disabled="true">Next</span>
+      )}
+    </div>
+  </nav>
+)}

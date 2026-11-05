@@ -1,7 +1,7 @@
 ---
-title: "Kubernetes DNS Troubleshooting: CoreDNS, Services, and Pods"
-seoTitle: "Kubernetes DNS Troubleshooting: CoreDNS, Services & Pods"
-description: "Commands and checks for tracking a failed Kubernetes DNS lookup from a Pod through CoreDNS, Services, and network policy."
+title: "Kubernetes DNS Debugging: Follow a Pod Lookup Through CoreDNS"
+seoTitle: "Kubernetes DNS Troubleshooting: CoreDNS and Pods"
+description: "Trace a failed Kubernetes DNS lookup from a Pod through its resolver, CoreDNS, Services, EndpointSlices, and network policy."
 pubDate: 2026-10-19
 updatedDate: 2026-11-03
 author: Sumit Kumar

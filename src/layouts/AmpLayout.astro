@@ -14,8 +14,8 @@ const socialImageUrl = imageUrl ?? new URL(portrait.src, SITE_URL).href;
 
 const ampStyles = `
   :root {
-    --canvas: #f7f5ef;
-    --paper: #fffefa;
+    --canvas: #ffffff;
+    --paper: #ffffff;
     --ink: #20352b;
     --muted: #56616a;
     --line: #e3e3d9;
@@ -151,6 +151,8 @@ const ampStyles = `
     border: 1px solid var(--line);
     border-radius: 18px;
     padding: 20px;
+    font-size: 18px;
+    line-height: 1.8;
   }
   .blog-body h2,
   .blog-body h3,
@@ -195,7 +197,7 @@ const ampStyles = `
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <meta name="description" content={description} />
-    <meta name="theme-color" content="#f7f5ef" />
+    <meta name="theme-color" content="#ffffff" />
     <link rel="canonical" href={canonicalUrl} />
     <script async src="https://cdn.ampproject.org/v0.js"></script>
     <style amp-boilerplate is:inline>

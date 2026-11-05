@@ -1,7 +1,7 @@
 ---
-title: "Kubernetes GPU Resource Quotas, Requests, and Limits"
-seoTitle: "How to Configure GPU Resource Quotas in Kubernetes"
-description: "Set Kubernetes GPU quotas without confusing a scheduled resource unit for a whole device, a memory limit, or a compute guarantee."
+title: "Kubernetes GPU Quotas: What Requests and Limits Actually Control"
+seoTitle: "Kubernetes GPU ResourceQuota: Requests and Limits"
+description: "Configure Kubernetes GPU requests and namespace quotas without mistaking an advertised resource unit for VRAM, isolation, or guaranteed compute."
 pubDate: 2026-11-02
 author: Sumit Kumar
 category: Kubernetes Resource Management

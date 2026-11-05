@@ -1,7 +1,7 @@
 ---
-title: "NVIDIA GPU Time-Slicing on Kubernetes: Configuration and Trade-offs"
+title: "NVIDIA GPU Time-Slicing: What a Kubernetes Replica Really Guarantees"
 seoTitle: "NVIDIA GPU Time-Slicing on Kubernetes: Setup and Limits"
-description: "NVIDIA time-slicing lets more Pods share a GPU, but replicas are not reserved compute or isolated memory. Here is how to test it."
+description: "Understand what NVIDIA time-slicing replicas mean in Kubernetes, what they do not isolate, and how to test performance under contention."
 pubDate: 2026-11-02
 author: Sumit Kumar
 category: Kubernetes GPU Scheduling

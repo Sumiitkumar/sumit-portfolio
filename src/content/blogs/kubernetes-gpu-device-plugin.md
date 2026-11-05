@@ -1,7 +1,7 @@
 ---
-title: "Kubernetes GPU Device Plugins: Discovery, Scheduling, and Troubleshooting"
-seoTitle: "Kubernetes GPU Device Plugins: How Discovery and Scheduling Work"
-description: "A GPU can be present on a node but missing from Kubernetes. Follow the path from the driver to the container."
+title: "From Driver to Pod: How Kubernetes Finds and Assigns a GPU"
+seoTitle: "Kubernetes GPU Device Plugins: Discovery to Pod"
+description: "Follow GPU discovery from the host driver through a Kubernetes device plugin, node allocatable resources, scheduling, and container access."
 pubDate: 2026-11-02
 author: Sumit Kumar
 category: Kubernetes GPU Infrastructure

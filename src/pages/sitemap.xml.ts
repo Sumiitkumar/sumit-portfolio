@@ -1,13 +1,21 @@
 import { getCollection } from "astro:content";
 import type { APIRoute } from "astro";
 import { SITE_URL } from "../consts";
+import { BLOGS_PER_PAGE, getBlogPageCount } from "../utils/blog-pagination";
 
 export const GET: APIRoute = async () => {
-  const posts = await getCollection("blogs", ({ data }) => !data.draft);
+  const posts = (await getCollection("blogs", ({ data }) => !data.draft)).sort(
+    (first, second) => second.data.pubDate.valueOf() - first.data.pubDate.valueOf(),
+  );
+  const totalPages = getBlogPageCount(posts.length);
   const entries = [
     { path: "/", lastModified: undefined },
     { path: "/blogs/", lastModified: undefined },
     { path: "/privacy-policy/", lastModified: undefined },
+    ...Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => ({
+      path: `/blogs/page/${index + 2}/`,
+      lastModified: undefined,
+    })),
     ...posts.map((post) => ({
       path: `/blogs/${post.slug}/`,
       lastModified: post.data.updatedDate ?? post.data.pubDate,

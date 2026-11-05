@@ -1,7 +1,7 @@
 ---
-title: "NVIDIA MIG on Kubernetes: Profiles, Scheduling, and Capacity Planning"
-seoTitle: "NVIDIA MIG on Kubernetes: Profiles and Scheduling Guide"
-description: "How MIG profiles appear to Kubernetes, why the resource name matters, and what to consider before changing a node's layout."
+title: "NVIDIA MIG on Kubernetes: Pick a GPU Profile Without Guessing"
+seoTitle: "NVIDIA MIG on Kubernetes: Profiles and Scheduling"
+description: "See how NVIDIA MIG profiles become Kubernetes resources, what hardware and workload fit to check, and how to plan layout changes."
 pubDate: 2026-11-02
 author: Sumit Kumar
 category: Kubernetes GPU Scheduling
