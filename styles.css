@@ -1837,11 +1837,18 @@ html[data-theme="dark"] .contact-links a { color: var(--green); }
   white-space: nowrap;
 }
 .about-title-role {
-  display: inline-block;
-  max-width: 100%;
+  display: flex;
+  width: 100%;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 0.2em;
   margin-top: 0.08em;
   font-size: clamp(26px, 2.85vw, 44px);
   line-height: 1.15;
+}
+.about-title-role .about-title-word {
+  flex: 0 0 auto;
+  margin-right: 0;
   white-space: nowrap;
 }
 
