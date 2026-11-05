@@ -40,8 +40,10 @@ const base = import.meta.env.BASE_URL.endsWith("/")
   : `${import.meta.env.BASE_URL}/`;
 const heroName = Array.from("Sumit Kumar");
 const heroRole = Array.from(" AI DevOps Engineer");
-const aboutGreeting = Array.from("Hey, I am Sumit Kumar");
-const aboutRole = Array.from("AI DevOps Engineer");
+const aboutGreeting = "Hey, I am Sumit Kumar".split(" ");
+const aboutRole = "AI DevOps Engineer".split(" ");
+const aboutGreetingCharacterCount = aboutGreeting.join("").length;
+const aboutRoleDelayOffset = aboutGreetingCharacterCount + aboutGreeting.length * 4 + 2;
 
 const skillLogos = new Map<string, { hex: string; path: string }>([
   ["GCP", siGooglecloud],
@@ -186,16 +188,30 @@ const skills = [
   <section id="about" class="content-section about-section" data-scroll-section aria-labelledby="about-title">
     <div class="section-intro">
       <p class="eyebrow section-kicker">ABOUT ME</p>
-      <h2 id="about-title" aria-label="Hey, I am Sumit Kumar, AI DevOps Engineer">
-        <span class="hero-title-line" aria-hidden="true">
-          {aboutGreeting.map((letter, index) => (
-            <span class="hero-title-letter" style={`--letter-delay: ${index * 55}ms`}>{letter === " " ? "\u00a0" : letter}</span>
+      <h2 id="about-title" class="about-title" aria-label="Hey, I am Sumit Kumar, AI DevOps Engineer">
+        <span class="hero-title-line about-title-greeting" aria-hidden="true">
+          {aboutGreeting.map((word, wordIndex) => (
+            <span class="about-title-word">
+              {Array.from(word).map((letter, letterIndex) => (
+                <span
+                  class="hero-title-letter"
+                  style={`--letter-delay: ${(wordIndex * 4 + letterIndex) * 35}ms`}
+                >{letter}</span>
+              ))}
+            </span>
           ))}
         </span>
         <br />
-        <span class="hero-title-line hero-title-role" aria-hidden="true">
-          {aboutRole.map((letter, index) => (
-            <span class="hero-title-letter" style={`--letter-delay: ${(index + aboutGreeting.length + 3) * 55}ms`}>{letter === " " ? "\u00a0" : letter}</span>
+        <span class="hero-title-line hero-title-role about-title-role" aria-hidden="true">
+          {aboutRole.map((word, wordIndex) => (
+            <span class="about-title-word">
+              {Array.from(word).map((letter, letterIndex) => (
+                <span
+                  class="hero-title-letter"
+                  style={`--letter-delay: ${(wordIndex * 4 + letterIndex + aboutRoleDelayOffset) * 25}ms`}
+                >{letter}</span>
+              ))}
+            </span>
           ))}
         </span>
       </h2>
