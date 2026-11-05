@@ -39,7 +39,7 @@ const icon = await getImage({
   height: 144,
   fit: "cover",
   position: "attention",
-  format: "webp",
+  format: "png",
 });
 const socialImage = await getImage({
   src: portrait,
@@ -67,7 +67,7 @@ const base = import.meta.env.BASE_URL.endsWith("/")
     <meta name="theme-color" content="#f7f5ef" />
     <link rel="canonical" href={canonicalURL} />
     {ampURL && <link rel="amphtml" href={ampURL} />}
-    <link rel="icon" type="image/webp" href={icon.src} />
+    <link rel="icon" type="image/png" sizes="144x144" href={icon.src} />
     <link rel="apple-touch-icon" href={icon.src} />
     <link
       href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500&family=DM+Sans:wght@400;500;600;700&family=Instrument+Serif:ital@0;1&display=swap"

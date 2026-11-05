@@ -7,6 +7,10 @@ interface Props {
 }
 
 const { title, description, canonicalUrl, imageUrl } = Astro.props;
+import portrait from "../../assets/WhatsApp Image 2025-09-10 at 3.46.09 PM.jpeg";
+import { SITE_URL } from "../consts";
+
+const socialImageUrl = imageUrl ?? new URL(portrait.src, SITE_URL).href;
 
 const ampStyles = `
   :root {
@@ -203,7 +207,7 @@ const ampStyles = `
       </style>
     </noscript>
     <style amp-custom is:inline set:html={ampStyles}></style>
-    {imageUrl && <meta property="og:image" content={imageUrl} />}
+    <meta property="og:image" content={socialImageUrl} />
     <title>{title}</title>
   </head>
   <body>
