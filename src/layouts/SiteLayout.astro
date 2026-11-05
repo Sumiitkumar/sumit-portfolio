@@ -28,9 +28,10 @@ const {
   modifiedDate,
 } = Astro.props;
 const canonicalURL = new URL(Astro.url.pathname, SITE_URL).href;
+const hasAmpPage = Astro.url.pathname === "/blogs/" || /^\/blogs\/[^/]+\/$/.test(Astro.url.pathname);
 const ampURL = Astro.url.pathname === "/"
   ? new URL("/amp/", SITE_URL).href
-  : Astro.url.pathname.startsWith("/blogs/")
+  : hasAmpPage
     ? new URL(`/amp${Astro.url.pathname}`, SITE_URL).href
     : undefined;
 const icon = await getImage({
