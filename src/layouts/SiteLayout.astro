@@ -185,8 +185,18 @@ const base = import.meta.env.BASE_URL.endsWith("/")
     </script>
     <script src="/theme-toggle.js" defer is:inline></script>
     <footer class="site-footer">
-      <span>© {new Date().getFullYear()} Sumit Kumar</span>
-      <a href={`${base}privacy-policy/`}>Privacy Policy</a>
+      <div class="footer-brand">
+        <span class="footer-monogram" aria-hidden="true">SK</span>
+        <span class="footer-copy">
+          <strong>Sumit Kumar</strong>
+          <span>AI · Cloud · Platform Engineering</span>
+        </span>
+      </div>
+      <span class="footer-copyright">© {new Date().getFullYear()}</span>
+      <nav class="footer-links" aria-label="Footer navigation">
+        <a href={`${base}privacy-policy/`}>Privacy Policy</a>
+        <a href={`${base}#home`}>Back to top <span aria-hidden="true">↑</span></a>
+      </nav>
     </footer>
   </body>
 </html>

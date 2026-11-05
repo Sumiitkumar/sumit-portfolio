@@ -9,6 +9,28 @@ import {
   Server,
   Workflow,
 } from "@lucide/astro";
+import {
+  siArgo,
+  siBitbucket,
+  siDocker,
+  siGit,
+  siGithub,
+  siGithubactions,
+  siGooglecloud,
+  siGrafana,
+  siGnubash,
+  siHelm,
+  siKubernetes,
+  siLinux,
+  siMlflow,
+  siNvidia,
+  siOpentelemetry,
+  siPrometheus,
+  siTerraform,
+  siTrivy,
+  siVllm,
+  siYaml,
+} from "simple-icons";
 import BrandLogo from "./BrandLogo.astro";
 import BlogTags from "./BlogTags.astro";
 import ThemeToggle from "./ThemeToggle.astro";
@@ -17,13 +39,63 @@ const base = import.meta.env.BASE_URL.endsWith("/")
   ? import.meta.env.BASE_URL
   : `${import.meta.env.BASE_URL}/`;
 const heroName = Array.from("Sumit Kumar");
-const heroRole = Array.from("DevOps Engineer");
+const heroRole = Array.from(" AI DevOps Engineer");
+const aboutGreeting = Array.from("Hey, I am Sumit Kumar");
+const aboutRole = Array.from("AI DevOps Engineer");
+
+const skillLogos = new Map<string, { hex: string; path: string }>([
+  ["GCP", siGooglecloud],
+  ["Docker", siDocker],
+  ["Kubernetes", siKubernetes],
+  ["Helm", siHelm],
+  ["Linux/Unix", siLinux],
+  ["On-Premise Infrastructure", siLinux],
+  ["NVIDIA DRA", siNvidia],
+  ["NVIDIA MIG", siNvidia],
+  ["GPU Time-Slicing", siNvidia],
+  ["HAMi", siNvidia],
+  ["Run:ai", siNvidia],
+  ["Kueue", siKubernetes],
+  ["Volcano", siKubernetes],
+  ["Kamaji", siKubernetes],
+  ["vLLM", siVllm],
+  ["KServe", siKubernetes],
+  ["NVIDIA Triton", siNvidia],
+  ["MLflow", siMlflow],
+  ["LLM Serving", siVllm],
+  ["Inference Observability", siOpentelemetry],
+  ["GitHub Actions", siGithubactions],
+  ["GitOps", siArgo],
+  ["ArgoCD", siArgo],
+  ["Terraform", siTerraform],
+  ["Shell/Bash", siGnubash],
+  ["YAML", siYaml],
+  ["Prometheus", siPrometheus],
+  ["Grafana", siGrafana],
+  ["ScienceLogic", siOpentelemetry],
+  ["Alerting", siPrometheus],
+  ["DevSecOps", siTrivy],
+  ["Git", siGit],
+  ["GitHub", siGithub],
+  ["Bitbucket", siBitbucket],
+  ["Cost Optimization", siGooglecloud],
+]);
 
 const skills = [
   {
     title: "Cloud & Infrastructure",
-    items: ["AWS", "Azure", "GCP", "Docker", "Kubernetes", "Helm", "Linux/Unix", "On-Premise Infrastructure", "AI Infrastructure"],
+    items: ["AWS", "Azure", "GCP", "Docker", "Kubernetes", "Helm", "Linux/Unix", "On-Premise Infrastructure"],
     icon: Cloud,
+  },
+  {
+    title: "GPU Infrastructure & Scheduling",
+    items: ["NVIDIA DRA", "NVIDIA MIG", "GPU Time-Slicing", "HAMi", "Run:ai", "Kueue", "Volcano", "Kamaji"],
+    icon: Server,
+  },
+  {
+    title: "LLMOps & Model Serving",
+    items: ["vLLM", "KServe", "NVIDIA Triton", "MLflow", "LLM Serving", "Inference Observability"],
+    icon: Boxes,
   },
   {
     title: "CI/CD & Automation",
@@ -114,19 +186,31 @@ const skills = [
   <section id="about" class="content-section about-section" data-scroll-section aria-labelledby="about-title">
     <div class="section-intro">
       <p class="eyebrow section-kicker">ABOUT ME</p>
-      <h2 id="about-title">Cloud · DevOps · Platform Engineering</h2>
+      <h2 id="about-title" aria-label="Hey, I am Sumit Kumar, AI DevOps Engineer">
+        <span class="hero-title-line" aria-hidden="true">
+          {aboutGreeting.map((letter, index) => (
+            <span class="hero-title-letter" style={`--letter-delay: ${index * 55}ms`}>{letter === " " ? "\u00a0" : letter}</span>
+          ))}
+        </span>
+        <br />
+        <span class="hero-title-line hero-title-role" aria-hidden="true">
+          {aboutRole.map((letter, index) => (
+            <span class="hero-title-letter" style={`--letter-delay: ${(index + aboutGreeting.length + 3) * 55}ms`}>{letter === " " ? "\u00a0" : letter}</span>
+          ))}
+        </span>
+      </h2>
       <div class="about-copy">
         <p>
-          I’m a DevOps Engineer with 3+ years of experience building reliable
+          I’m an AI DevOps Engineer with 3+ years of experience building reliable
           cloud infrastructure, Kubernetes platforms, and delivery workflows.
           I focus on practical automation that makes systems easier to operate
           and safer to change.
         </p>
         <p>
-          My work spans Infrastructure as Code with Terraform and Helm,
-          container platforms, CI/CD, and observability with Prometheus and
-          Grafana. I also explore AI-assisted troubleshooting and enjoy sharing
-          what I learn with the engineering community.
+          I’m especially interested in GPU infrastructure and scheduling:
+          NVIDIA DRA, MIG, time-slicing, HAMi, and Run:ai, plus Kubernetes
+          workload schedulers like Kueue and Volcano. I also explore multi-tenant
+          Kubernetes with Kamaji and LLMOps tools for serving and observing models.
         </p>
         <a
           class="text-link"
@@ -257,7 +341,28 @@ const skills = [
             <span class="skill-icon"><Icon size={19} /></span>
             <h3>{title}</h3>
           </div>
-          <div class="skill-tags">{items.map((item) => <span>{item}</span>)}</div>
+          <div class="skill-tags">
+            {items.map((item) => {
+              const logo = skillLogos.get(item);
+              return (
+                <span class="skill-tag">
+                  {logo ? (
+                    <svg
+                      class="skill-tag-logo"
+                      viewBox="0 0 24 24"
+                      aria-hidden="true"
+                      style={`color: #${logo.hex}`}
+                    >
+                      <path d={logo.path} />
+                    </svg>
+                  ) : (
+                    <Icon class="skill-tag-logo skill-tag-fallback" size={16} aria-hidden="true" />
+                  )}
+                  {item}
+                </span>
+              );
+            })}
+          </div>
         </article>
       ))}
     </div>
