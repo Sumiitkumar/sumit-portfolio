@@ -33,6 +33,13 @@ Astro prints the local URL after the development server starts.
 
 Published posts appear at `/blogs/` and `/blogs/<filename>/`.
 
+## Kubernetes GPU Pod diagnostic
+
+The browser-only checklist at `/tools/gpu-pod-checklist/` maps a selected
+workload symptom to focused Kubernetes checks and example read-only commands.
+It does not connect to a cluster or transmit selections. Commands contain
+placeholders and must be reviewed for the target environment.
+
 ## Build and deploy
 
 Run `npm run build`; the static site is written to `dist/`. Configure the hosting provider to build with `npm run build` and publish `dist/`. Connect the Git repository to a provider with automatic deployments to publish each pushed change. No database or server-side runtime is required for blog posts.

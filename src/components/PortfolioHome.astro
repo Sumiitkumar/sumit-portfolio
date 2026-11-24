@@ -128,6 +128,7 @@ const skills = [
       <a href="#experience" data-section-link>Experience</a>
       <a href="#skills" data-section-link>Skills</a>
       <a href={`${base}blogs/`}>Blogs</a>
+      <a href={`${base}tools/gpu-pod-checklist/`}>Tools</a>
     </div>
     <a
       class="nav-resume"
@@ -306,6 +307,19 @@ const skills = [
         </div>
       </article>
     </div>
+    <aside class="tool-callout">
+      <div>
+        <p class="eyebrow section-kicker">FREE FIELD TOOL</p>
+        <h3>Stuck GPU Pod? Start with evidence.</h3>
+        <p>
+          Choose whether the Pod is unscheduled, failing to start, or failing
+          at runtime to get a focused checklist and read-only commands.
+        </p>
+      </div>
+      <a class="button button-secondary" href={`${base}tools/gpu-pod-checklist/`}>
+        Open the GPU Pod diagnostic <ArrowRight size={16} />
+      </a>
+    </aside>
   </section>
 
   <section id="experience" class="content-section experience-section" data-scroll-section aria-labelledby="experience-title">

@@ -15,6 +15,8 @@ draft: false
 
 When a GPU Pod stays in `Pending`, it is tempting to edit its YAML until the scheduler accepts it. Resist that impulse. A Pod can be waiting because no node satisfies all of its requirements, because a namespace policy rejected its request, or because it has not progressed beyond scheduling for an entirely different reason. Start with evidence, identify which layer is blocking progress, and change one relevant condition at a time.
 
+For a quick, browser-based path through the first checks, use the [GPU Pod diagnostic tool](/tools/gpu-pod-checklist/). It does not connect to your cluster; it maps the symptom you select to relevant commands and investigation steps.
+
 This guide follows the same order the Kubernetes control plane does: inspect the Pod and its events, check admission and quota, compare its requirements with eligible nodes, and only then investigate how the GPU resource is advertised.
 
 ## First identify what “Pending” means

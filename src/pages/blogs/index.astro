@@ -65,6 +65,7 @@ const blogStructuredData = JSON.stringify({
           <a href={`${base}#experience`}>Experience</a>
           <a href={`${base}#skills`}>Skills</a>
           <a class="active" href={`${base}blogs/`}>Blogs</a>
+          <a href={`${base}tools/gpu-pod-checklist/`}>Tools</a>
           <a href={`${base}#contact`}>Contact</a>
         </div>
         <ThemeToggle />
@@ -74,6 +75,10 @@ const blogStructuredData = JSON.stringify({
         <p class="subname">NOTES AND WRITING</p>
         <h1>Blogs</h1>
         <p>Practical notes from building Kubernetes platforms, GPU infrastructure, and reliable cloud systems.</p>
+        <p class="blog-tool-link">
+          Need to investigate a workload? Try the
+          <a href={`${base}tools/gpu-pod-checklist/`}>Kubernetes GPU Pod diagnostic</a>.
+        </p>
       </header>
       <BlogEntries
         posts={posts.slice(0, BLOGS_PER_PAGE)}

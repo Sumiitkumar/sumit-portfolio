@@ -12,6 +12,7 @@ export const GET: APIRoute = async () => {
     { path: "/", lastModified: undefined },
     { path: "/blogs/", lastModified: undefined },
     { path: "/privacy-policy/", lastModified: undefined },
+    { path: "/tools/gpu-pod-checklist/", lastModified: undefined },
     ...Array.from({ length: Math.max(0, totalPages - 1) }, (_, index) => ({
       path: `/blogs/page/${index + 2}/`,
       lastModified: undefined,

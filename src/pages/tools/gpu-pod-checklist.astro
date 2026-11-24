@@ -1,0 +1,372 @@
+---
+import SiteLayout from "../../layouts/SiteLayout.astro";
+import BrandLogo from "../../components/BrandLogo.astro";
+import ThemeToggle from "../../components/ThemeToggle.astro";
+
+const base = import.meta.env.BASE_URL.endsWith("/")
+  ? import.meta.env.BASE_URL
+  : `${import.meta.env.BASE_URL}/`;
+---
+
+<SiteLayout
+  title="Kubernetes GPU Pod Diagnostic | Sumit Kumar"
+  description="Use this free, browser-based checklist to investigate a Kubernetes GPU Pod that will not schedule, start, or use its GPU."
+  keywords={["Kubernetes GPU troubleshooting", "GPU Pod Pending", "Kubernetes diagnostic tool"]}
+>
+  <main class="page">
+    <article class="sheet">
+      <nav class="topnav" aria-label="Primary navigation">
+        <BrandLogo href={`${base}#home`} />
+        <div class="navlinks">
+          <a href={`${base}#home`}>Home</a>
+          <a href={`${base}blogs/`}>Blogs</a>
+          <a class="active" href={`${base}tools/gpu-pod-checklist/`}>GPU Pod tool</a>
+        </div>
+        <ThemeToggle />
+      </nav>
+
+      <header class="tool-heading">
+        <p class="subname">FREE KUBERNETES FIELD TOOL</p>
+        <h1>GPU Pod diagnostic</h1>
+        <p>
+          Choose what you observe to get a focused set of read-only checks.
+          Start with the Pod's current state, then follow the matching branch.
+        </p>
+      </header>
+
+      <section class="gpu-tool" aria-labelledby="gpu-tool-title">
+        <h2 id="gpu-tool-title">Where is the workload getting stuck?</h2>
+        <form id="gpu-diagnostic-form">
+          <label for="gpu-diagnostic-stage">Current stage</label>
+          <select id="gpu-diagnostic-stage" name="stage">
+            <option value="scheduling">Pod has no assigned node (still Pending)</option>
+            <option value="startup">Pod has a node, but its container will not start</option>
+            <option value="runtime">Container runs, but the GPU or application does not work</option>
+          </select>
+
+          <label for="gpu-diagnostic-symptom">Closest symptom</label>
+          <select id="gpu-diagnostic-symptom" name="symptom" required>
+            <option value="">Choose a symptom</option>
+          </select>
+
+          <div class="tool-actions">
+            <button class="button button-primary" type="submit">Show checks</button>
+            <button class="tool-reset" type="reset">Start over</button>
+          </div>
+        </form>
+
+        <section id="gpu-diagnostic-result" class="diagnostic-result" aria-live="polite" tabindex="-1" hidden>
+        </section>
+
+        <p class="tool-privacy">
+          This tool runs entirely in your browser. It does not connect to your
+          cluster or send your selections anywhere. Commands are examples with
+          placeholders; review them for your environment before use.
+        </p>
+      </section>
+
+      <section class="tool-context" aria-labelledby="tool-context-title">
+        <h2 id="tool-context-title">How to use the result</h2>
+        <p>
+          Kubernetes uses <code>Pending</code> for more than a lack of GPU
+          capacity. The assigned-node field and the newest Pod events help
+          separate scheduling from image, volume, runtime, and application
+          failures. Capture the Pod description before changing its manifest;
+          one event can point to more than one constraint.
+        </p>
+        <p>
+          This checklist is a starting point, not an automated cluster
+          diagnosis. Resource names, plugin namespaces, labels, and GPU-sharing
+          behavior depend on your installed drivers, operators, and schedulers.
+          Verify each finding against your cluster's documentation and
+          operational policies.
+        </p>
+        <p>
+          For the full walkthrough, read the
+          <a href={`${base}blogs/debugging-pending-gpu-pods/`}>GPU Pod troubleshooting guide</a>
+          and the guide to
+          <a href={`${base}blogs/kubernetes-gpu-device-plugin/`}>how Kubernetes GPU device plugins work</a>.
+        </p>
+      </section>
+    </article>
+  </main>
+</SiteLayout>
+
+<script>
+  const form = document.querySelector("#gpu-diagnostic-form");
+  const stageSelect = document.querySelector("#gpu-diagnostic-stage");
+  const symptomSelect = document.querySelector("#gpu-diagnostic-symptom");
+  const result = document.querySelector("#gpu-diagnostic-result");
+
+  const symptoms = {
+    scheduling: [
+      ["gpu-capacity", "Insufficient GPU or GPU resource is missing"],
+      ["placement", "Node selector, affinity, or taint may block placement"],
+      ["cpu-memory", "GPU seems available, but another resource may be short"],
+      ["quota", "Quota or admission policy may be involved"],
+      ["storage", "A volume or storage constraint appears in events"],
+      ["unclear-scheduling", "Events are missing or the cause is unclear"],
+    ],
+    startup: [
+      ["image", "Image pull or container creation error"],
+      ["volume", "Volume mount or claim error"],
+      ["device-injection", "Container starts failing during GPU/runtime setup"],
+      ["unclear-startup", "Container is waiting for another reason"],
+    ],
+    runtime: [
+      ["gpu-invisible", "Container runs, but cannot see the GPU"],
+      ["application", "GPU is visible, but CUDA or the application fails"],
+      ["contention", "Workload runs slowly or runs out of GPU memory"],
+    ],
+  };
+
+  const guidance = {
+    "gpu-capacity": {
+      title: "Compare the request with node allocatable resources",
+      summary: "The requested extended-resource key must exactly match a key advertised by an eligible node. Physical hardware alone is not schedulable capacity.",
+      checks: [
+        "Read the newest FailedScheduling event and record its full message.",
+        "Compare the Pod's GPU resource key and quantity with Capacity and Allocatable on eligible nodes.",
+        "Check whether CPU, memory, or another request also makes those nodes ineligible.",
+        "If the resource is absent or unexpectedly zero, inspect the device plugin or operator on the affected node.",
+      ],
+      commands: [
+        "kubectl describe pod <pod-name> -n <namespace>",
+        "kubectl get pod <pod-name> -n <namespace> -o yaml",
+        "kubectl describe node <gpu-node>",
+        "kubectl get pods -A -o wide | grep -Ei 'gpu|nvidia|device'",
+      ],
+      note: "MIG and sharing configurations can advertise resource keys that differ from nvidia.com/gpu. Do not substitute a key without checking the node and plugin configuration.",
+    },
+    placement: {
+      title: "Check node eligibility before changing placement policy",
+      summary: "Selectors and required affinity narrow the node set; taints require matching tolerations. A toleration permits placement but does not select a node.",
+      checks: [
+        "Compare labels required by the Pod with labels on the intended GPU nodes.",
+        "Check required node affinity, taints, tolerations, and any topology-spread or anti-affinity rules.",
+        "Confirm the workload is intended for the target pool before relaxing a selector or adding a toleration.",
+      ],
+      commands: [
+        "kubectl get pod <pod-name> -n <namespace> -o yaml",
+        "kubectl get nodes --show-labels",
+        "kubectl describe node <gpu-node>",
+        "kubectl describe pod <pod-name> -n <namespace>",
+      ],
+      note: "Prefer the smallest placement-policy change that matches the workload's intent; broad tolerations can admit unrelated workloads to accelerator nodes.",
+    },
+    "cpu-memory": {
+      title: "Inspect the complete Pod request",
+      summary: "A free GPU does not help if the same node cannot satisfy the Pod's CPU, memory, or other resource requests.",
+      checks: [
+        "Review requests for all containers, sidecars, and init containers in the admitted Pod.",
+        "Compare requests with remaining node allocatable resources on nodes that satisfy the GPU and placement constraints.",
+        "Change a request only after confirming the workload's actual needs and service objectives.",
+      ],
+      commands: [
+        "kubectl describe pod <pod-name> -n <namespace>",
+        "kubectl get pod <pod-name> -n <namespace> -o yaml",
+        "kubectl describe node <gpu-node>",
+      ],
+      note: "For controller-managed Pods, update and inspect the controller template so replacement Pods do not repeat the same request.",
+    },
+    quota: {
+      title: "Separate admission errors from scheduling events",
+      summary: "Quota can limit extended-resource requests, but an admission rejection is different from an admitted Pod waiting for a node.",
+      checks: [
+        "Confirm whether the Pod exists and was admitted; read its events for the exact policy or quota message.",
+        "Inspect namespace quota and LimitRange settings using the same extended-resource key as the Pod.",
+        "Ask the cluster owner about policy changes; raising quota does not add node capacity.",
+      ],
+      commands: [
+        "kubectl describe pod <pod-name> -n <namespace>",
+        "kubectl describe resourcequota -n <namespace>",
+        "kubectl get limitrange -n <namespace> -o yaml",
+      ],
+      note: "If the API rejected creation, there may be no Pending Pod to inspect. Use the submitting controller or deployment events to find the admission error.",
+    },
+    storage: {
+      title: "Check volume binding and node topology",
+      summary: "An unbound claim or a volume restricted to another zone can eliminate GPU nodes from consideration.",
+      checks: [
+        "Inspect the Pod event for volume or unbound-claim messages.",
+        "Check whether each referenced PVC is Bound and review its storage class and access mode.",
+        "Compare PV node affinity or zone constraints with the eligible GPU nodes.",
+      ],
+      commands: [
+        "kubectl describe pod <pod-name> -n <namespace>",
+        "kubectl get pvc -n <namespace>",
+        "kubectl describe pvc <claim-name> -n <namespace>",
+        "kubectl get pv <pv-name> -o yaml",
+      ],
+      note: "Do not remove a volume or change storage topology until you confirm the data and workload requirements.",
+    },
+    "unclear-scheduling": {
+      title: "Capture fresh evidence before changing the Pod",
+      summary: "Events may expire or combine several blockers. Confirm the Pod identity, namespace, and controller before drawing a conclusion.",
+      checks: [
+        "Record the Pod's assigned-node field, conditions, and complete current events.",
+        "Check whether a Job, Deployment, or other controller is replacing the Pod.",
+        "If events are absent, check the cluster's scheduler and event history through your normal observability tools.",
+        "Then compare resource requests, labels, affinity, taints, quota, and storage constraints.",
+      ],
+      commands: [
+        "kubectl get pod <pod-name> -n <namespace> -o wide",
+        "kubectl describe pod <pod-name> -n <namespace>",
+        "kubectl get events -n <namespace> --sort-by=.metadata.creationTimestamp",
+      ],
+      note: "Avoid deleting or restarting the affected Pod and plugin components before saving useful diagnostic evidence.",
+    },
+    image: {
+      title: "Follow the image-pull failure",
+      summary: "Once a node is assigned, image access and container startup are kubelet/runtime concerns, not scheduler capacity problems.",
+      checks: [
+        "Read the container waiting reason and the newest Pod events for the exact registry or image error.",
+        "Verify the image reference, registry credentials, network access, and any image-pull policy.",
+        "Check node-level runtime logs using your platform's normal access and support process.",
+      ],
+      commands: [
+        "kubectl describe pod <pod-name> -n <namespace>",
+        "kubectl get pod <pod-name> -n <namespace> -o yaml",
+        "kubectl get events -n <namespace> --sort-by=.metadata.creationTimestamp",
+      ],
+      note: "Changing GPU requests or removing node affinity will not repair an image pull error on an already-assigned Pod.",
+    },
+    volume: {
+      title: "Inspect the mount and claim error",
+      summary: "A scheduled Pod can remain unable to start while kubelet attaches or mounts storage.",
+      checks: [
+        "Read the container and volume events on the Pod.",
+        "Confirm referenced PVCs exist in the same namespace and are Bound.",
+        "Check CSI driver health and volume topology with the storage administrator if the mount error persists.",
+      ],
+      commands: [
+        "kubectl describe pod <pod-name> -n <namespace>",
+        "kubectl get pvc -n <namespace>",
+        "kubectl describe pvc <claim-name> -n <namespace>",
+      ],
+      note: "Storage errors after node assignment are distinct from GPU scheduling, even if the Pod phase is still Pending.",
+    },
+    "device-injection": {
+      title: "Trace device allocation and runtime setup",
+      summary: "A node assignment does not guarantee that the container runtime can initialize the requested device.",
+      checks: [
+        "Check Pod events and container state for device-plugin, runtime, or device-injection errors.",
+        "Verify the container requested the correct resource key and that the node's plugin/operator is healthy.",
+        "Compare the host driver, container runtime integration, and image requirements for the affected node.",
+      ],
+      commands: [
+        "kubectl describe pod <pod-name> -n <namespace>",
+        "kubectl describe node <gpu-node>",
+        "kubectl get pods -A -o wide | grep -Ei 'gpu|nvidia|device'",
+        "kubectl logs <device-plugin-pod> -n <plugin-namespace>",
+      ],
+      note: "Plugin names and namespaces vary. Identify the component on the affected node and use your installed operator's recovery procedure.",
+    },
+    "unclear-startup": {
+      title: "Read the container state and newest event",
+      summary: "The assigned node narrows the investigation to kubelet, storage, image, runtime, and container startup.",
+      checks: [
+        "Check each container's waiting or terminated reason, exit code, and restart count.",
+        "Read recent Pod events and controller status.",
+        "Use logs from the previous container instance if it has restarted.",
+      ],
+      commands: [
+        "kubectl get pod <pod-name> -n <namespace> -o wide",
+        "kubectl describe pod <pod-name> -n <namespace>",
+        "kubectl logs <pod-name> -n <namespace> --all-containers --previous",
+      ],
+      note: "Use --previous only when a previous container instance exists; otherwise inspect current logs and events.",
+    },
+    "gpu-invisible": {
+      title: "Verify allocation and device visibility separately",
+      summary: "Kubernetes scheduling, kubelet allocation, runtime device injection, and application visibility are separate transitions.",
+      checks: [
+        "Confirm the assigned Pod's container requests the expected GPU resource.",
+        "Check node allocatable resources and device-plugin health on that node.",
+        "From an approved diagnostic container, check device visibility and correlate any error with Pod and node events.",
+      ],
+      commands: [
+        "kubectl describe pod <pod-name> -n <namespace>",
+        "kubectl describe node <gpu-node>",
+        "kubectl exec <pod-name> -n <namespace> -- nvidia-smi",
+      ],
+      note: "The example uses NVIDIA tooling and may not apply to your runtime. Use an approved image and diagnostic command for your platform.",
+    },
+    application: {
+      title: "Check the application stack after device visibility",
+      summary: "A visible device does not guarantee compatible CUDA libraries, frameworks, model configuration, or successful application initialization.",
+      checks: [
+        "Read application logs and record the exact runtime or framework error.",
+        "Compare the host driver with the CUDA/runtime requirements of the container image.",
+        "Run a minimal approved operation to distinguish platform compatibility from application configuration.",
+      ],
+      commands: [
+        "kubectl logs <pod-name> -n <namespace> --all-containers",
+        "kubectl describe pod <pod-name> -n <namespace>",
+        "kubectl exec <pod-name> -n <namespace> -- nvidia-smi",
+      ],
+      note: "Use platform-appropriate diagnostics; nvidia-smi alone does not validate the application's libraries or workload.",
+    },
+    contention: {
+      title: "Measure live usage; scheduled units are not utilization guarantees",
+      summary: "A shared or time-sliced resource can schedule successfully while processes later compete for memory or compute.",
+      checks: [
+        "Record whether the resource represents a whole GPU, MIG instance, time-sliced replica, or another sharing unit.",
+        "Correlate application errors and latency with GPU memory, utilization, and concurrent workloads.",
+        "Check the sharing system's documented isolation and accounting behavior before changing quotas or replica counts.",
+      ],
+      commands: [
+        "kubectl describe pod <pod-name> -n <namespace>",
+        "kubectl exec <pod-name> -n <namespace> -- nvidia-smi",
+      ],
+      note: "Metric names and isolation guarantees depend on the device, driver, exporter, and sharing configuration; validate them for your version.",
+    },
+  };
+
+  const updateSymptoms = () => {
+    const options = symptoms[stageSelect.value];
+    symptomSelect.replaceChildren(new Option("Choose a symptom", ""));
+    options.forEach(([value, label]) => symptomSelect.add(new Option(label, value)));
+    result.hidden = true;
+  };
+
+  const addText = (parent, tag, text) => {
+    const element = document.createElement(tag);
+    element.textContent = text;
+    parent.append(element);
+    return element;
+  };
+
+  stageSelect.addEventListener("change", updateSymptoms);
+  form.addEventListener("reset", () => {
+    window.setTimeout(updateSymptoms);
+  });
+  form.addEventListener("submit", (event) => {
+    event.preventDefault();
+    const recommendation = guidance[symptomSelect.value];
+    if (!recommendation) return;
+
+    result.replaceChildren();
+    addText(result, "h3", recommendation.title);
+    addText(result, "p", recommendation.summary);
+    addText(result, "h4", "Checks to make");
+    const checks = document.createElement("ol");
+    recommendation.checks.forEach((check) => addText(checks, "li", check));
+    result.append(checks);
+    addText(result, "h4", "Read-only commands");
+    const commands = document.createElement("ul");
+    recommendation.commands.forEach((command) => {
+      const item = document.createElement("li");
+      const code = document.createElement("code");
+      code.textContent = command;
+      item.append(code);
+      commands.append(item);
+    });
+    result.append(commands);
+    addText(result, "p", recommendation.note);
+    result.hidden = false;
+    result.focus();
+  });
+
+  updateSymptoms();
+</script>
